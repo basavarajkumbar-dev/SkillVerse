@@ -36,12 +36,12 @@ jobs:
         continue-on-error: true
         run: python3 tools/validate_content.py app/src/main/assets/content 2>&1 | tee content-validation.log
 
-      - name: Build debug APK and run unit + Robolectric UI tests
+      - name: Build debug + release APKs and run unit + Robolectric UI tests
         id: gradle
         continue-on-error: true
         run: |
           set -o pipefail
-          ./gradlew --no-daemon --stacktrace assembleDebug testDebugUnitTest --continue 2>&1 | tee gradle.log
+          ./gradlew --no-daemon --stacktrace assembleDebug testDebugUnitTest assembleRelease --continue 2>&1 | tee gradle.log
 
       - name: Collect report
         if: always()

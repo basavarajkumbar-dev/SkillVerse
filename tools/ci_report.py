@@ -22,6 +22,8 @@ lines.append(f"- Content validation: **{content_outcome}**")
 lines.append(f"- Gradle build + tests: **{gradle_outcome}**")
 
 apks = glob.glob("app/build/outputs/apk/debug/*.apk")
+release = glob.glob("app/build/outputs/apk/release/*.apk")
+lines.append("- Release (R8-minified, unsigned) APK: " + (f"`{os.path.basename(release[0])}` ({os.path.getsize(release[0]):,} bytes)" if release else "**not produced**"))
 for apk in apks:
     shutil.copy(apk, out)
     lines.append(f"- APK: `{os.path.basename(apk)}` ({os.path.getsize(apk):,} bytes)")
@@ -62,7 +64,7 @@ for name in ("gradle.log", "content-validation.log"):
 if os.path.exists("gradle.log"):
     with open("gradle.log", encoding="utf-8", errors="replace") as f:
         log = f.read().splitlines()
-    compile_errors = [l for l in log if re.match(r"^e: ", l)]
+    compile_errors = [l for l in log if re.match(r"^e: (file:|/)", l)]
     if compile_errors:
         lines.append("\n## Kotlin compile errors\n```")
         lines.extend(compile_errors[:200])
