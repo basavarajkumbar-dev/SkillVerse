@@ -4,7 +4,10 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.filterToOne
+import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -178,6 +181,9 @@ class AppUiTest {
         val s = runBlocking { tc.settingsRepository.settings.first() }
         assertEquals(ThemeMode.LIGHT, s.themeMode)
         assertTrue(s.reducedMotion)
+        rule.onNodeWithTag("profile_list").performScrollToNode(hasTestTag("daily_goal"))
+        rule.onNodeWithTag("daily_goal").onChildren().filterToOne(hasContentDescription("Increase")).performClick()
+        rule.waitUntil(5_000) { runBlocking { tc.settingsRepository.settings.first() }.dailyGoal == 4 }
         rule.onNodeWithTag("profile_list").performScrollToNode(hasTestTag("edit_name"))
         rule.onNodeWithTag("edit_name").performClick()
         waitForTag("name_field")

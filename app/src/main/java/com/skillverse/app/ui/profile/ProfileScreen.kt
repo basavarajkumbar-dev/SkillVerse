@@ -39,7 +39,6 @@ import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -118,9 +117,15 @@ fun ProfileScreen(container: AppContainer, onReset: () -> Unit) {
                         Text(s.displayName, style = MaterialTheme.typography.titleLarge, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.testTag("profile_name"))
                         Text("Level ${p.level.level} · ${p.totalXp} XP", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
-                    IconButton(onClick = { editName = true }, modifier = Modifier.testTag("edit_name")) {
-                        Icon(Icons.Filled.Edit, contentDescription = "Edit display name")
+                    if (!editName) {
+                        IconButton(onClick = { editName = true }, modifier = Modifier.testTag("edit_name")) {
+                            Icon(Icons.Filled.Edit, contentDescription = "Edit display name")
+                        }
                     }
+                }
+                if (editName) {
+                    Spacer(Modifier.height(Spacing.md))
+                    NameEditor(s.displayName, onCancel = { editName = false }) { vm.setName(it); editName = false }
                 }
             }
         }
@@ -222,7 +227,6 @@ fun ProfileScreen(container: AppContainer, onReset: () -> Unit) {
         }
     }
 
-    if (editName) NameDialog(s.displayName, onDismiss = { editName = false }) { vm.setName(it); editName = false }
     if (pickAvatar) {
         AlertDialog(
             onDismissRequest = { pickAvatar = false },
@@ -297,21 +301,20 @@ private fun DiagRow(label: String, value: String) {
 }
 
 @Composable
-private fun NameDialog(current: String, onDismiss: () -> Unit, onSave: (String) -> Unit) {
-    var text by remember { mutableStateOf(current) }
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = { TextButton(onClick = { onSave(text) }, enabled = text.isNotBlank(), modifier = Modifier.testTag("save_name")) { Text("Save") } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
-        title = { Text("Display name") },
-        text = {
-            OutlinedTextField(
-                value = text,
-                onValueChange = { text = it.take(UserSettings.MAX_NAME_LENGTH) },
-                singleLine = true,
-                supportingText = { Text("${text.length}/${UserSettings.MAX_NAME_LENGTH}") },
-                modifier = Modifier.testTag("name_field"),
-            )
-        },
-    )
+private fun NameEditor(current: String, onCancel: () -> Unit, onSave: (String) -> Unit) {
+    var text by rememberSaveable { mutableStateOf(current) }
+    Column {
+        OutlinedTextField(
+            value = text,
+            onValueChange = { text = it.take(UserSettings.MAX_NAME_LENGTH) },
+            label = { Text("Display name") },
+            singleLine = true,
+            supportingText = { Text("${text.length}/${UserSettings.MAX_NAME_LENGTH}") },
+            modifier = Modifier.fillMaxWidth().testTag("name_field"),
+        )
+        Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+            TextButton(onClick = onCancel) { Text("Cancel") }
+            TextButton(onClick = { onSave(text) }, enabled = text.isNotBlank(), modifier = Modifier.testTag("save_name")) { Text("Save") }
+        }
+    }
 }
