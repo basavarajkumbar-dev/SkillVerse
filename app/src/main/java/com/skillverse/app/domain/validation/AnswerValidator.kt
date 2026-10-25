@@ -74,7 +74,7 @@ object AnswerValidator {
                 val index = (answer as? UserAnswer.Choice)?.index
                     ?: return invalid("Choose one of the options.", solution)
                 if (index == spec.correctIndex) ok(solution)
-                else ValidationResult(false, "Not quite", "That option is not the right one. Read the explanation, then retry.", solution)
+                else ValidationResult(false, "Not quite", "That option is not the right one. Take a hint or reveal the correct option, then retry.", solution)
             }
             is AnswerSpec.Text -> {
                 val raw = (answer as? UserAnswer.Text)?.value ?: return invalid("Type an answer first.", solution)

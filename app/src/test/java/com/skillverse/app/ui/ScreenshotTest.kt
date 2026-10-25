@@ -9,6 +9,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.skillverse.app.TestContent
@@ -127,10 +128,10 @@ class ScreenshotTest {
         rule.onNodeWithTag("submit").performClick()
         waitTag("result_panel")
         shot("11_challenge_wrong_light")
-        rule.onNodeWithTag("retry").performClick(); waitTag("submit")
+        rule.onNodeWithTag("retry").performScrollTo().performClick(); waitTag("submit")
         val right = (ch.answer as AnswerSpec.Choice).correctIndex
-        rule.onNodeWithTag("option_$right").performClick()
-        rule.onNodeWithTag("submit").performClick()
+        rule.onNodeWithTag("option_$right").performScrollTo().performClick()
+        rule.onNodeWithTag("submit").performScrollTo().performClick()
         waitTag("explanation")
         shot("12_challenge_correct_light")
     }
