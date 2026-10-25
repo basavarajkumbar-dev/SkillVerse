@@ -131,8 +131,8 @@ private fun TreeNodeRow(s: SkillNodeStatus, isFirst: Boolean, isLast: Boolean, n
                 val x = size.width / 2
                 val w = 3.dp.toPx()
                 val dash = PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
-                if (!isFirst) drawLine(if (s.unlocked) lineDone else lineIdle, Offset(x, 0f), Offset(x, 28.dp.toPx()), w, StrokeCap.Round, if (s.unlocked) null else dash)
-                if (!isLast) drawLine(if (nextUnlocked) lineDone else lineIdle, Offset(x, 28.dp.toPx()), Offset(x, size.height), w, StrokeCap.Round, if (nextUnlocked) null else dash)
+                // The rail runs from the bottom of this node's ring to the next row; it never crosses the emblem.
+                if (!isLast) drawLine(if (nextUnlocked) lineDone else lineIdle, Offset(x, 58.dp.toPx()), Offset(x, size.height), w, StrokeCap.Round, if (nextUnlocked) null else dash)
             }
             ProgressRing(
                 fraction = s.masteryPercent / 100f,

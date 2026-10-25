@@ -197,7 +197,7 @@ fun ProgressScreen(container: AppContainer, openProject: (String) -> Unit, openR
                     Column {
                         Text("Weekly goal", style = MaterialTheme.typography.titleSmall)
                         Text(
-                            "${p.activeDaysThisWeek} of ${p.settings.weeklyGoalDays} active days this week (Mon–Sun)",
+                            "${p.activeDaysThisWeek} active day${if (p.activeDaysThisWeek == 1) "" else "s"} this week · goal ${p.settings.weeklyGoalDays} (Mon–Sun)",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )

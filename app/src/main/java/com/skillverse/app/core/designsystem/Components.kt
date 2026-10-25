@@ -82,6 +82,7 @@ fun SvCard(
 ) {
     val shape = MaterialTheme.shapes.large
     val base = modifier
+        .fillMaxWidth()
         .clip(shape)
         .then(if (brush != null) Modifier.background(brush) else Modifier.background(MaterialTheme.colorScheme.surface))
         .border(BorderStroke(1.dp, SvTheme.colors.cardBorder), shape)
