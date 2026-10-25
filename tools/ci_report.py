@@ -57,6 +57,13 @@ lines.append(
 if os.path.isdir("app/build/test-results/testDebugUnitTest"):
     shutil.copytree("app/build/test-results/testDebugUnitTest", f"{out}/test-results", dirs_exist_ok=True)
 
+shots = sorted(glob.glob("app/build/screenshots/*.png"))
+if shots:
+    os.makedirs(f"{out}/screenshots", exist_ok=True)
+    for shot in shots:
+        shutil.copy(shot, f"{out}/screenshots/")
+    lines.append(f"- Screenshots: {len(shots)} rendered by Robolectric (see screenshots/)")
+
 for name in ("gradle.log", "content-validation.log"):
     if os.path.exists(name):
         shutil.copy(name, out)
