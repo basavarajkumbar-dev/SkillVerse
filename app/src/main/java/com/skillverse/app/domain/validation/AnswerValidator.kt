@@ -39,13 +39,16 @@ object AnswerValidator {
     fun normalize(text: String, mode: MatchMode): String = when (mode) {
         MatchMode.EXACT -> text
         MatchMode.TRIMMED -> trimmed(text)
-        MatchMode.NORMALIZED -> trimmed(text).replace(SPACES, " ")
-        MatchMode.CASE_INSENSITIVE -> trimmed(text).replace(SPACES, " ").lowercase()
+        MatchMode.NORMALIZED -> collapsed(text)
+        MatchMode.CASE_INSENSITIVE -> collapsed(text).lowercase()
         MatchMode.CODE -> text.replace(WHITESPACE, "").replace('"', '\'')
     }
 
     private val SPACES = Regex("[ \\t]+")
     private val WHITESPACE = Regex("\\s+")
+
+    /** TRIMMED, then each line trimmed on both sides and inner runs of spaces/tabs collapsed. */
+    private fun collapsed(text: String): String = trimmed(text).split('\n').joinToString("\n") { it.trim().replace(SPACES, " ") }
 
     private fun trimmed(text: String): String {
         val lines = text.replace("\r\n", "\n").replace('\r', '\n').split('\n').map { it.trimEnd() }

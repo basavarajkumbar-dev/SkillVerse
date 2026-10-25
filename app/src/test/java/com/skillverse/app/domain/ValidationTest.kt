@@ -10,7 +10,7 @@ import com.skillverse.app.domain.validation.ExecutionStatus
 import com.skillverse.app.domain.validation.LocalExerciseValidationService
 import com.skillverse.app.domain.validation.UnavailableRemoteExecutionService
 import com.skillverse.app.domain.validation.UserAnswer
-import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -100,7 +100,7 @@ class AnswerValidatorTest {
 class CodeExecutionServiceTest {
     private val c = TestContent.curriculum
 
-    @Test fun localServiceReportsExplicitStatusAndNeverClaimsExecution() = runTest {
+    @Test fun localServiceReportsExplicitStatusAndNeverClaimsExecution() = runBlocking {
         val service = LocalExerciseValidationService()
         assertFalse(service.executesCode)
         val ch = c.byId.getValue("py-002")
@@ -113,7 +113,7 @@ class CodeExecutionServiceTest {
         assertTrue(fail.errors.isNotEmpty())
     }
 
-    @Test fun remotePlaceholderIsUnsupported() = runTest {
+    @Test fun remotePlaceholderIsUnsupported() = runBlocking {
         val r = UnavailableRemoteExecutionService().execute(ExecutionRequest(c.byId.getValue("py-002"), UserAnswer.Text("x")))
         assertEquals(ExecutionStatus.UNSUPPORTED, r.status)
         assertFalse(r.executedCode)

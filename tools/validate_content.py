@@ -61,9 +61,9 @@ def normalize(s, mode):
     if mode == "TRIMMED":
         return trimmed(s)
     if mode == "NORMALIZED":
-        return re.sub(r"[ \t]+", " ", trimmed(s))
+        return "\n".join(re.sub(r"[ \t]+", " ", l.strip()) for l in trimmed(s).split("\n"))
     if mode == "CASE_INSENSITIVE":
-        return re.sub(r"[ \t]+", " ", trimmed(s)).lower()
+        return "\n".join(re.sub(r"[ \t]+", " ", l.strip()) for l in trimmed(s).split("\n")).lower()
     if mode == "CODE":
         return re.sub(r"\s+", "", s).replace('"', "'")
     raise ValueError(mode)

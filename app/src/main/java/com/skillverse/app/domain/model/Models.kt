@@ -40,7 +40,7 @@ enum class MatchMode {
     /** Line endings normalised, trailing spaces and surrounding blank lines removed. */
     TRIMMED,
 
-    /** TRIMMED plus runs of spaces/tabs collapsed to one space. */
+    /** TRIMMED plus each line trimmed and runs of spaces/tabs collapsed to one space. */
     NORMALIZED,
 
     /** NORMALIZED and case-insensitive. */

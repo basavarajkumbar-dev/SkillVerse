@@ -4,6 +4,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -31,10 +32,11 @@ object SystemTimeProvider : TimeProvider {
     override fun zone(): ZoneId = ZoneId.systemDefault()
 }
 
-/** Adjustable clock for tests. */
+/** Adjustable clock for tests. [observeToday] emits the current fake date once, without polling. */
 class FakeTimeProvider(var instant: Instant, var zoneId: ZoneId = ZoneId.of("UTC")) : TimeProvider {
     override fun now(): Instant = instant
     override fun zone(): ZoneId = zoneId
+    override fun observeToday(pollMillis: Long): Flow<LocalDate> = flowOf(today())
     fun setDate(date: LocalDate, hour: Int = 12) {
         instant = date.atTime(hour, 0).atZone(zoneId).toInstant()
     }

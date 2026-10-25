@@ -2,6 +2,7 @@ package com.skillverse.app.domain.analytics
 
 import com.skillverse.app.domain.model.Category
 import java.time.LocalDate
+import kotlin.math.roundToInt
 
 data class CategoryAccuracy(val category: Category, val attempts: Int, val correct: Int) {
     val accuracyPercent: Int get() = AnalyticsCalculator.percent(correct, attempts)
@@ -17,7 +18,7 @@ object AnalyticsCalculator {
     const val WEAK_THRESHOLD_PERCENT = 60
 
     /** Integer percentage that is safe for a zero denominator. */
-    fun percent(part: Int, whole: Int): Int = if (whole <= 0) 0 else ((part * 100.0) / whole).toInt().coerceIn(0, 100)
+    fun percent(part: Int, whole: Int): Int = if (whole <= 0) 0 else ((part * 100.0) / whole).roundToInt().coerceIn(0, 100)
 
     fun weakTopics(stats: List<CategoryAccuracy>): List<WeakTopic> = stats
         .filter { it.attempts >= WEAK_MIN_ATTEMPTS && it.accuracyPercent < WEAK_THRESHOLD_PERCENT }
