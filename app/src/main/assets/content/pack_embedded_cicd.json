@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": 1,
+  "packId": "embedded_cicd",
+  "title": "Embedded & CI/CD",
+  "sources": [
+    "Linux, Bash & Embedded Debugging Handbook (Oct 2026)",
+    "Git, Jenkins & CI/CD Automation Handbook (Edition 1.0, Oct 2026)",
+    "API & Protocol Automation Handbook (Edition 1.0, Oct 2026)",
+    "Python Automation Engineer Handbook (complete edition, Oct 2026)"
+  ],
+  "challenges": [
+    {
+      "id": "ci-001",
+      "category": "DEVOPS",
+      "skillId": "cicd_jenkins",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 210,
+      "title": "post { always }",
+      "description": "A declarative Jenkinsfile ends with: post { always { junit 'reports/*.xml' } }",
+      "instructions": "Why put the junit step in post { always }?",
+      "hints": [
+        "Failed builds are when you most need the report.",
+        "post conditions run after the stages."
+      ],
+      "explanation": "post { always } runs whatever the build result. Publishing JUnit results there means failing builds still\n       show which tests failed and keep the trend charts complete.",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 12 Jenkinsfile Engineering; Ch. 15",
+      "prerequisites": [],
+      "options": [
+        "So test results are published even when the test stage fails",
+        "So Jenkins deletes old reports",
+        "So the build always passes",
+        "So the tests run twice"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "ci-002",
+      "category": "DEVOPS",
+      "skillId": "cicd_jenkins",
+      "type": "ARRANGE_STEPS",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "Order the pipeline stages",
+      "description": "Design a Python test-automation pipeline.",
+      "instructions": "Order the stages from first to last.",
+      "hints": [
+        "You need the code before you can install anything.",
+        "Fast checks run before slow ones."
+      ],
+      "explanation": "Checkout first, then a reproducible environment, then cheap static checks that fail fast, then the\n            tests, and finally reporting, which should run even after failures.",
+      "source": "Git, Jenkins & CI/CD Handbook · Project 1 Python Test Automation CI Pipeline",
+      "prerequisites": [],
+      "steps": [
+        "Checkout the repository",
+        "Create a virtual environment and install pinned dependencies",
+        "Run linters and static checks",
+        "Run the pytest suite with --junitxml",
+        "Publish JUnit results and archive logs"
+      ]
+    },
+    {
+      "id": "ci-003",
+      "category": "DEVOPS",
+      "skillId": "cicd_jenkins",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "HARD",
+      "estimatedSeconds": 300,
+      "title": "The leaking credential",
+      "description": "This stage works, but the security review flags it.",
+      "instructions": "What is wrong?",
+      "hints": [
+        "Who expands ${...} in a double-quoted Groovy string?",
+        "Jenkins warns about insecure interpolation of secrets."
+      ],
+      "explanation": "In double quotes Groovy substitutes the values before the shell runs, so the password becomes part of the\n        command string, where it can leak into process lists and logs. Use sh 'curl -u \"$BMC_USER:$BMC_PASS\" ...'\n        so the shell reads the environment variables. (-k also disables TLS checks; prefer a CA bundle.)",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 19 Jenkins Credentials and Security",
+      "prerequisites": [],
+      "code": "withCredentials([usernamePassword(credentialsId: 'bmc-admin',\n                 usernameVariable: 'BMC_USER', passwordVariable: 'BMC_PASS')]) {\n    sh \"curl -k -u ${BMC_USER}:${BMC_PASS} https://bmc1/redfish/v1/\"\n}",
+      "options": [
+        "usernamePassword needs a third variable",
+        "The double-quoted Groovy string interpolates the secret into the command text; use single quotes so the shell expands it",
+        "curl does not support -u",
+        "withCredentials cannot be used inside a stage"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "ci-004",
+      "category": "DEVOPS",
+      "skillId": "cicd_jenkins",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "Green locally, red in CI",
+      "description": "After a merge, the pipeline fails on import errors that nobody can reproduce locally.",
+      "instructions": "What is the most likely cause?",
+      "hints": [
+        "What does pip install -r requirements.txt pick without version pins?",
+        "The agent installs fresh."
+      ],
+      "explanation": "Without pinned versions or a lock file, a fresh CI install can pull a newer release with breaking changes.\n       Pin versions, use the same Python version, and consider building in a container for reproducibility.",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 21 Containers and Reproducible CI Environments",
+      "prerequisites": [],
+      "options": [
+        "Unpinned dependencies resolved to different versions on the CI agent",
+        "Jenkins runs Python more slowly",
+        "The developer's laptop has more RAM",
+        "Git changed the file contents"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "ci-005",
+      "category": "DEVOPS",
+      "skillId": "cicd_jenkins",
+      "type": "FILL_BLANK",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 210,
+      "title": "pytest exit codes",
+      "description": "A pipeline step decides whether to mark the build UNSTABLE or FAILED based on pytest's exit code.",
+      "instructions": "Fill the blank with the exit code pytest uses when tests ran and some failed.",
+      "hints": [
+        "0 means all passed.",
+        "2 means interrupted, 5 means no tests collected."
+      ],
+      "explanation": "pytest returns 0 when all tests pass, 1 when some fail, 2 when interrupted, 3 on internal error, 4 on usage\n         error and 5 when no tests were collected. Treating 5 as success is a classic CI mistake.",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 14 Python Test Execution in CI",
+      "prerequisites": [],
+      "code": "pytest exits with code ____ when tests were collected and run but some failed.",
+      "acceptedAnswers": [
+        "1"
+      ],
+      "matchMode": "TRIMMED"
+    },
+    {
+      "id": "emb-001",
+      "category": "EMBEDDED",
+      "skillId": "embedded_firmware",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "115200 8N1",
+      "description": "A board's console is documented as 115200 8N1.",
+      "instructions": "What does 8N1 mean?",
+      "hints": [
+        "The order is data bits, parity, stop bits.",
+        "N stands for none."
+      ],
+      "explanation": "8N1 is the most common UART frame: 8 data bits, no parity, 1 stop bit, at 115200 baud. Both ends must\n       match exactly.",
+      "source": "API & Protocol Automation Handbook · UART chapter; Linux, Bash & Embedded Debugging Handbook · UART debugging",
+      "prerequisites": [],
+      "options": [
+        "8 retries, no timeout, 1 port",
+        "8 stop bits, no data bits, 1 parity bit",
+        "8 data bits, no parity bit, 1 stop bit",
+        "8 kilobaud, 1 channel"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "emb-002",
+      "category": "EMBEDDED",
+      "skillId": "embedded_firmware",
+      "type": "ARRANGE_STEPS",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "Embedded Linux boot chain",
+      "description": "A BMC hangs during boot and you need to know which stage it reached.",
+      "instructions": "Order the boot stages of a typical embedded Linux system.",
+      "hints": [
+        "Hardware ROM code runs first.",
+        "Services need a mounted root filesystem."
+      ],
+      "explanation": "Knowing the chain tells you where to look: a hang with no U-Boot banner is pre-bootloader, a panic after\n            \"Starting kernel\" is kernel or rootfs, and a hang after systemd starts is a service issue.",
+      "source": "Linux, Bash & Embedded Debugging Handbook · Ch. 1.6 Boot process; kernel & boot debugging",
+      "prerequisites": [],
+      "steps": [
+        "Power-on reset and boot ROM",
+        "Bootloader (for example U-Boot) starts",
+        "Bootloader loads the kernel and device tree",
+        "Kernel initialises drivers and mounts the root filesystem",
+        "init (systemd) starts user-space services"
+      ]
+    },
+    {
+      "id": "emb-003",
+      "category": "EMBEDDED",
+      "skillId": "embedded_firmware",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 210,
+      "title": "Garbled console",
+      "description": "The serial console prints random symbols like Ã¿ø÷ instead of boot messages.",
+      "instructions": "What is the most likely cause?",
+      "hints": [
+        "Data arrives, but it decodes wrongly.",
+        "Check the timing settings first."
+      ],
+      "explanation": "Consistent garbage almost always means the terminal samples at a different baud rate than the board\n       transmits. Confirm the documented rate (often 115200) and the 8N1 frame before suspecting firmware.",
+      "source": "Linux, Bash & Embedded Debugging Handbook · UART debugging; API & Protocol Automation Handbook · UART",
+      "prerequisites": [],
+      "options": [
+        "The kernel is corrupted",
+        "Baud rate mismatch between the terminal and the board",
+        "The USB cable is too short",
+        "The root filesystem is full"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "emb-004",
+      "category": "EMBEDDED",
+      "skillId": "embedded_firmware",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "Version 2.10 is older?",
+      "description": "A firmware gate rejects version 2.10, which should satisfy the minimum 2.9.",
+      "instructions": "What is the bug?",
+      "hints": [
+        "Compare \"1\" and \"9\" after \"2.\"",
+        "Split on dots and convert parts to int."
+      ],
+      "explanation": "String comparison is lexicographic: at the third character \"1\" < \"9\", so \"2.10\" < \"2.9\". Compare\n        tuple(int(p) for p in v.split(\".\")) or use packaging.version.Version. Converting to float also fails\n        (2.10 becomes 2.1).",
+      "source": "Python Automation Engineer Handbook · Project P10 Firmware-Version Validation",
+      "prerequisites": [],
+      "code": "MIN_VERSION = \"2.9\"\n\ndef firmware_ok(current):\n    return current >= MIN_VERSION",
+      "options": [
+        "The function must print the result",
+        ">= cannot compare strings",
+        "MIN_VERSION must be a float",
+        "Version strings are compared character by character, so \"2.10\" < \"2.9\"; compare numeric tuples"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "id": "emb-005",
+      "category": "EMBEDDED",
+      "skillId": "embedded_firmware",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "HARD",
+      "estimatedSeconds": 240,
+      "title": "Unable to mount root fs",
+      "description": "After a firmware update, the console ends with: Kernel panic - not syncing: VFS: Unable to mount root fs.",
+      "instructions": "Where should the investigation start?",
+      "hints": [
+        "The kernel started but could not find or read its root filesystem.",
+        "Who tells the kernel where root is?"
+      ],
+      "explanation": "The kernel booted, so the bootloader worked, but it could not mount the root filesystem. Check that the\n       rootfs image was written correctly, that root= and rootfstype in the bootargs match the new layout, and that\n       the driver for the storage is built in.",
+      "source": "Linux, Bash & Embedded Debugging Handbook · Kernel and boot debugging; Git, Jenkins & CI/CD Handbook · Ch. 26 CI Failure Analysis",
+      "prerequisites": [],
+      "options": [
+        "The Redfish web server configuration",
+        "The test framework's pytest version",
+        "The network switch",
+        "The root filesystem image or partition, and the root= boot arguments passed by the bootloader"
+      ],
+      "correctIndex": 3
+    }
+  ]
+}

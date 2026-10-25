@@ -1,0 +1,961 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": 1,
+  "packId": "python",
+  "title": "Python",
+  "sources": [
+    "Python Automation Engineer Handbook (complete edition, Oct 2026)"
+  ],
+  "challenges": [
+    {
+      "id": "py-001",
+      "category": "PYTHON",
+      "skillId": "python_foundations",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "Hashable inventory keys",
+      "description": "Dictionary keys must be hashable. Pick the value that can key a rack-inventory dict.",
+      "instructions": "Which of these values can be used as a dictionary key?",
+      "hints": [
+        "Only immutable built-in containers are hashable.",
+        "Lists, dicts and sets are all mutable."
+      ],
+      "explanation": "A tuple of hashable elements is itself hashable, so ('rack12', 7) works as a key.\n       Lists, dicts and sets are mutable and therefore unhashable; using one raises TypeError: unhashable type.",
+      "source": "Python Automation Engineer Handbook · Ch. 7 Data Structures; Ch. 39 B2",
+      "prerequisites": [],
+      "options": [
+        "{'rack12', 7}",
+        "('rack12', 7)",
+        "{'rack': 12}",
+        "['rack12', 7]"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "py-002",
+      "category": "PYTHON",
+      "skillId": "python_foundations",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "EASY",
+      "estimatedSeconds": 210,
+      "title": "Equal is not identical",
+      "description": "Compare two firmware-version lists with == and is.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "== compares values; is compares object identity.",
+        "Two list literals always create two objects."
+      ],
+      "explanation": "== calls __eq__ and compares contents, so the lists are equal. is checks whether both names refer to\n            the same object; each list literal creates a new object, so the identity check is False.\n            Use is only for singletons such as None.",
+      "source": "Python Automation Engineer Handbook · Ch. 3 Operators; Ch. 39 B3",
+      "prerequisites": [],
+      "code": "expected = [\"2.14\", \"1.9\"]\nactual = [\"2.14\", \"1.9\"]\nprint(expected == actual, expected is actual)",
+      "acceptedAnswers": [
+        "True False"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "expected = [\"2.14\", \"1.9\"]\nactual = [\"2.14\", \"1.9\"]\nprint(expected == actual, expected is actual)",
+        "expectedOutput": "True False"
+      }
+    },
+    {
+      "id": "py-003",
+      "category": "PYTHON",
+      "skillId": "python_foundations",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "EASY",
+      "estimatedSeconds": 210,
+      "title": "append vs extend",
+      "description": "Build an ipmitool command line and count its parts.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "append adds exactly one element, whatever it is.",
+        "What is that one element here?"
+      ],
+      "explanation": "append adds its argument as a single element, so the inner list becomes the 4th item.\n            extend([\"sdr\", \"list\"]) would have added two separate strings and produced length 5.",
+      "source": "Python Automation Engineer Handbook · Ch. 7 Data Structures; Ch. 39 B5",
+      "prerequisites": [],
+      "code": "cmd = [\"ipmitool\", \"-I\", \"lanplus\"]\ncmd.append([\"sdr\", \"list\"])\nprint(len(cmd), cmd[-1])",
+      "acceptedAnswers": [
+        "4 ['sdr', 'list']"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "cmd = [\"ipmitool\", \"-I\", \"lanplus\"]\ncmd.append([\"sdr\", \"list\"])\nprint(len(cmd), cmd[-1])",
+        "expectedOutput": "4 ['sdr', 'list']"
+      }
+    },
+    {
+      "id": "py-004",
+      "category": "PYTHON",
+      "skillId": "python_foundations",
+      "type": "FILL_BLANK",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "Format a temperature",
+      "description": "Print a CPU temperature rounded to one decimal place with an f-string.",
+      "instructions": "Fill the blank so the program prints: CPU0: 41.3 C",
+      "hints": [
+        "Format specifiers go after a colon inside the braces.",
+        "f means fixed-point; the number before it is the precision."
+      ],
+      "explanation": "The format spec :.1f renders a float in fixed-point notation with one digit after the decimal point,\n         rounding 41.256 to 41.3.",
+      "source": "Python Automation Engineer Handbook · Ch. 4 Input, Output and String Formatting",
+      "prerequisites": [],
+      "code": "temp = 41.256\nprint(f\"CPU0: {temp____} C\")",
+      "acceptedAnswers": [
+        ":.1f"
+      ],
+      "matchMode": "CODE",
+      "verify": {
+        "template": "temp = 41.256\nprint(f\"CPU0: {temp{{answer}}} C\")",
+        "expectedOutput": "CPU0: 41.3 C"
+      }
+    },
+    {
+      "id": "py-005",
+      "category": "PYTHON",
+      "skillId": "python_foundations",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 210,
+      "title": "A reading of zero is valid",
+      "description": "A sensor function returns None when no reading is available and a float otherwise; 0.0 is a valid reading.",
+      "instructions": "Which condition correctly detects a missing reading?",
+      "hints": [
+        "0.0 is falsy.",
+        "Check for the specific sentinel value."
+      ],
+      "explanation": "reading is None is true only for the missing case. if not reading would also fire for a valid 0.0 reading,\n       because 0.0 is falsy. Comparing with False is wrong for the same reason (0.0 == False is True).",
+      "source": "Python Automation Engineer Handbook · Ch. 5 Conditional Statements; Ch. 39 B11, B14",
+      "prerequisites": [],
+      "options": [
+        "if reading is None:",
+        "if reading == False:",
+        "if not reading:",
+        "if reading is False:"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "py-006",
+      "category": "PYTHON",
+      "skillId": "python_foundations",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "EASY",
+      "estimatedSeconds": 210,
+      "title": "Slicing a serial number",
+      "description": "Extract the year and the suffix from a board serial number.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "Indexes start at 0 and the stop index is excluded.",
+        "Negative indexes count from the end."
+      ],
+      "explanation": "serial[3:7] takes characters 3, 4, 5 and 6, which are \"2026\". serial[-4:] takes the last four\n            characters, \"AX91\".",
+      "source": "Python Automation Engineer Handbook · Ch. 2 Variables, Data Types and Memory; Ch. 39 B16",
+      "prerequisites": [],
+      "code": "serial = \"SN-2026-AX91\"\nprint(serial[3:7], serial[-4:])",
+      "acceptedAnswers": [
+        "2026 AX91"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "serial = \"SN-2026-AX91\"\nprint(serial[3:7], serial[-4:])",
+        "expectedOutput": "2026 AX91"
+      }
+    },
+    {
+      "id": "py-007",
+      "category": "PYTHON",
+      "skillId": "python_foundations",
+      "type": "CODE_PUZZLE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 330,
+      "title": "Deduplicate, keep order",
+      "description": "A scan returns host names with duplicates. Remove the duplicates but keep first-seen order.",
+      "instructions": "Write one expression that evaluates to the deduplicated list, in first-seen order. Use the variable hosts and the dict.fromkeys idiom.",
+      "hints": [
+        "Dictionaries preserve insertion order.",
+        "dict.fromkeys(iterable) creates one key per unique item."
+      ],
+      "explanation": "dict.fromkeys(hosts) keeps the first occurrence of every key in insertion order (guaranteed since\n           Python 3.7); wrapping it in list() gives the ordered unique hosts. list(set(hosts)) also removes\n           duplicates but loses the order.",
+      "source": "Python Automation Engineer Handbook · Ch. 7 Data Structures; Ch. 39 B15",
+      "prerequisites": [],
+      "code": "hosts = [\"u07\", \"u03\", \"u07\", \"u12\", \"u03\"]\n# your expression:",
+      "testCases": [
+        {
+          "input": "hosts = [\"u07\", \"u03\", \"u07\", \"u12\", \"u03\"]",
+          "expected": "['u07', 'u03', 'u12']"
+        }
+      ],
+      "acceptedAnswers": [
+        "list(dict.fromkeys(hosts))"
+      ],
+      "matchMode": "CODE",
+      "verify": {
+        "template": "hosts = [\"u07\", \"u03\", \"u07\", \"u12\", \"u03\"]\nprint({{answer}})",
+        "expectedOutput": "['u07', 'u03', 'u12']"
+      }
+    },
+    {
+      "id": "py-008",
+      "category": "PYTHON",
+      "skillId": "python_foundations",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "The disappearing host list",
+      "description": "This loop crashes with TypeError: 'NoneType' object is not iterable.",
+      "instructions": "What is the bug?",
+      "hints": [
+        "What does list.sort() return?",
+        "Compare sort() with sorted()."
+      ],
+      "explanation": "list.sort() sorts the list in place and returns None. Assigning that result back to hosts throws the list\n        away. Either call hosts.sort() on its own line or write hosts = sorted(hosts).",
+      "source": "Python Automation Engineer Handbook · Ch. 7 Data Structures; Ch. 39 B17",
+      "prerequisites": [],
+      "code": "hosts = [\"u12\", \"u03\", \"u07\"]\nhosts = hosts.sort()\nfor host in hosts:\n    print(\"checking\", host)",
+      "options": [
+        "Strings cannot be sorted, so sort() fails",
+        "print() cannot take two arguments",
+        "list.sort() sorts in place and returns None, so hosts becomes None",
+        "The for loop must use range(len(hosts))"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "py-009",
+      "category": "PYTHON",
+      "skillId": "data_structures",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "Dictionary lookup cost",
+      "description": "Redfish responses become dicts, and automation code looks keys up constantly.",
+      "instructions": "What is the average time complexity of looking up a key in a Python dict?",
+      "hints": [
+        "A dict is a hash table.",
+        "The key's hash points straight to its slot."
+      ],
+      "explanation": "A dict is a hash table: the key's hash locates its slot directly, so lookup, insertion and deletion\n       are O(1) on average. Worst-case collisions are possible but rare with good hashes.",
+      "source": "Python Automation Engineer Handbook · Ch. 7 Data Structures; Ch. 39 B4",
+      "prerequisites": [],
+      "options": [
+        "O(1)",
+        "O(n log n)",
+        "O(log n)",
+        "O(n)"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "py-010",
+      "category": "PYTHON",
+      "skillId": "data_structures",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "EASY",
+      "estimatedSeconds": 210,
+      "title": "get() with defaults",
+      "description": "Read fan speeds where some fans are missing and some report no value.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "The default is used only when the key is absent.",
+        "Is fan2 absent?"
+      ],
+      "explanation": "get() returns the default only when the key is missing. fan3 is missing, so 0 is returned. fan2\n            exists with the value None, so None is returned, not the default.",
+      "source": "Python Automation Engineer Handbook · Ch. 7 Data Structures",
+      "prerequisites": [],
+      "code": "fans = {\"fan1\": 4200, \"fan2\": None}\nprint(fans.get(\"fan3\", 0), fans.get(\"fan2\", 0))",
+      "acceptedAnswers": [
+        "0 None"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "fans = {\"fan1\": 4200, \"fan2\": None}\nprint(fans.get(\"fan3\", 0), fans.get(\"fan2\", 0))",
+        "expectedOutput": "0 None"
+      }
+    },
+    {
+      "id": "py-011",
+      "category": "PYTHON",
+      "skillId": "data_structures",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "The shared default list",
+      "description": "A helper records test results in a history list.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "Default values are evaluated once, when def runs.",
+        "Both calls see the same list object."
+      ],
+      "explanation": "The default list is created once at function definition time and reused by every call that omits\n            history, so results accumulate. Use history=None and create a new list inside the function.",
+      "source": "Python Automation Engineer Handbook · Ch. 8 Functions; Ch. 39 I4",
+      "prerequisites": [],
+      "code": "def record(result, history=[]):\n    history.append(result)\n    return history\n\nrecord(\"pass\")\nprint(record(\"fail\"))",
+      "acceptedAnswers": [
+        "['pass', 'fail']"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "def record(result, history=[]):\n    history.append(result)\n    return history\n\nrecord(\"pass\")\nprint(record(\"fail\"))",
+        "expectedOutput": "['pass', 'fail']"
+      }
+    },
+    {
+      "id": "py-012",
+      "category": "PYTHON",
+      "skillId": "data_structures",
+      "type": "FILL_BLANK",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "Filter hot sensors",
+      "description": "Keep only the sensors hotter than 80 °C with a dict comprehension.",
+      "instructions": "Fill the blank so the comprehension iterates over key–value pairs.",
+      "hints": [
+        "You need both the key and the value in each iteration.",
+        "keys() and values() give only half."
+      ],
+      "explanation": "dict.items() yields (key, value) pairs that unpack into name and t. The comprehension keeps the\n         pairs where t > 80.",
+      "source": "Python Automation Engineer Handbook · Ch. 9 Comprehensions and Iteration",
+      "prerequisites": [],
+      "code": "temps = {\"cpu0\": 71, \"cpu1\": 88, \"dimm3\": 92}\nhot = {name: t for name, t in temps.____() if t > 80}\nprint(hot)",
+      "acceptedAnswers": [
+        "items"
+      ],
+      "matchMode": "CODE",
+      "verify": {
+        "template": "temps = {\"cpu0\": 71, \"cpu1\": 88, \"dimm3\": 92}\nhot = {name: t for name, t in temps.{{answer}}() if t > 80}\nprint(hot)",
+        "expectedOutput": "{'cpu1': 88, 'dimm3': 92}"
+      }
+    },
+    {
+      "id": "py-013",
+      "category": "PYTHON",
+      "skillId": "data_structures",
+      "type": "CODE_PUZZLE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 330,
+      "title": "Missing devices",
+      "description": "Compare the expected inventory with what the scan found.",
+      "instructions": "Write one expression that returns the devices in expected but not in found, as a sorted list. Both are sets; use the - operator.",
+      "hints": [
+        "Set difference keeps items of the left set that are not in the right set.",
+        "sorted() turns any iterable into a sorted list."
+      ],
+      "explanation": "expected - found is the set difference: devices that were expected but not discovered. sorted() makes\n           the result deterministic, which matters for readable test reports.",
+      "source": "Python Automation Engineer Handbook · Ch. 7 Data Structures (sets for comparing inventories)",
+      "prerequisites": [],
+      "code": "expected = {\"nvme0\", \"nvme1\", \"nic0\", \"psu1\"}\nfound = {\"nvme0\", \"psu1\"}\n# your expression:",
+      "testCases": [
+        {
+          "input": "expected = {nvme0, nvme1, nic0, psu1}; found = {nvme0, psu1}",
+          "expected": "['nic0', 'nvme1']"
+        }
+      ],
+      "acceptedAnswers": [
+        "sorted(expected - found)",
+        "sorted(expected.difference(found))"
+      ],
+      "matchMode": "CODE",
+      "verify": {
+        "template": "expected = {\"nvme0\", \"nvme1\", \"nic0\", \"psu1\"}\nfound = {\"nvme0\", \"psu1\"}\nprint({{answer}})",
+        "expectedOutput": "['nic0', 'nvme1']"
+      }
+    },
+    {
+      "id": "py-014",
+      "category": "PYTHON",
+      "skillId": "data_structures",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "*args and **kwargs",
+      "description": "A command wrapper forwards extra arguments.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "*args collects extra positional arguments into a tuple.",
+        "sorted() on a dict sorts its keys."
+      ],
+      "explanation": "cmd receives \"ipmitool\"; the two extra positional strings go into args; the keyword arguments go into\n            kwargs. sorted(kwargs) iterates over the dict's keys and returns them alphabetically.",
+      "source": "Python Automation Engineer Handbook · Ch. 8 Functions; Ch. 39 B7",
+      "prerequisites": [],
+      "code": "def run(cmd, *args, **kwargs):\n    print(cmd, len(args), sorted(kwargs))\n\nrun(\"ipmitool\", \"sel\", \"list\", timeout=10, retries=2)",
+      "acceptedAnswers": [
+        "ipmitool 2 ['retries', 'timeout']"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "def run(cmd, *args, **kwargs):\n    print(cmd, len(args), sorted(kwargs))\n\nrun(\"ipmitool\", \"sel\", \"list\", timeout=10, retries=2)",
+        "expectedOutput": "ipmitool 2 ['retries', 'timeout']"
+      }
+    },
+    {
+      "id": "py-015",
+      "category": "PYTHON",
+      "skillId": "data_structures",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 210,
+      "title": "Can a tuple change?",
+      "description": "Consider t = ([], 5).",
+      "instructions": "Which statement is true?",
+      "hints": [
+        "Immutability applies to the tuple's own slots.",
+        "The slot holds a reference to a list."
+      ],
+      "explanation": "The tuple's slots cannot be reassigned, but slot 0 refers to a mutable list, which can still be changed.\n       Because it contains a list, t is also unhashable and cannot be a dict key.",
+      "source": "Python Automation Engineer Handbook · Ch. 39 B2",
+      "prerequisites": [],
+      "options": [
+        "t can be used as a dictionary key",
+        "t[0].append(1) raises TypeError because tuples are immutable",
+        "t[0].append(1) works and changes what t displays",
+        "t[1] = 6 works because 5 is an int"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "py-016",
+      "category": "PYTHON",
+      "skillId": "data_structures",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "Stable sorting",
+      "description": "Order components by priority; two share the same priority.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "Python's sort is stable.",
+        "Items with equal keys keep their original relative order."
+      ],
+      "explanation": "sorted() orders by the second element. fan and cpu both have key 3; because the sort is stable they\n            stay in their original order, fan before cpu.",
+      "source": "Python Automation Engineer Handbook · Ch. 39 B17 (stable sorts)",
+      "prerequisites": [],
+      "code": "results = [(\"fan\", 3), (\"psu\", 1), (\"cpu\", 3), (\"nic\", 2)]\nprint([name for name, _ in sorted(results, key=lambda r: r[1])])",
+      "acceptedAnswers": [
+        "['psu', 'nic', 'fan', 'cpu']"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "results = [(\"fan\", 3), (\"psu\", 1), (\"cpu\", 3), (\"nic\", 2)]\nprint([name for name, _ in sorted(results, key=lambda r: r[1])])",
+        "expectedOutput": "['psu', 'nic', 'fan', 'cpu']"
+      }
+    },
+    {
+      "id": "py-017",
+      "category": "PYTHON",
+      "skillId": "data_structures",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "Zeros that will not go away",
+      "description": "This code is meant to remove all zero readings, but prints [12, 0, 7].",
+      "instructions": "What causes the wrong result?",
+      "hints": [
+        "Track the loop's index as items shift left.",
+        "After a removal, the next element moves into the current position."
+      ],
+      "explanation": "The loop advances by index. Removing the first 0 shifts the second 0 into the current index, and the loop\n        then moves past it. Build a new list instead: readings = [r for r in readings if r != 0].",
+      "source": "Python Automation Engineer Handbook · Ch. 6 Loops; Ch. 36 Debugging Python Programs",
+      "prerequisites": [],
+      "code": "readings = [12, 0, 0, 7]\nfor r in readings:\n    if r == 0:\n        readings.remove(r)\nprint(readings)",
+      "options": [
+        "remove() deletes every matching value, not just one",
+        "print() is called inside the loop",
+        "Removing items from a list while iterating over it makes the loop skip elements",
+        "Comparing integers with == is unreliable"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "py-018",
+      "category": "PYTHON",
+      "skillId": "file_log_parsing",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "Always pass an encoding",
+      "description": "with open(path) as f: works on your laptop but fails on a Windows CI agent with UnicodeDecodeError.",
+      "instructions": "What is the most reliable fix?",
+      "hints": [
+        "Without encoding=, Python uses the machine's locale default.",
+        "Different machines, different defaults."
+      ],
+      "explanation": "Without an explicit encoding, open() uses the platform's locale encoding, which differs between machines.\n       Passing encoding=\"utf-8\" makes the behaviour the same everywhere.",
+      "source": "Python Automation Engineer Handbook · Ch. 12 File Handling; Ch. 39 B10; Ch. 38 Troubleshooting",
+      "prerequisites": [],
+      "options": [
+        "Open the file with encoding=\"utf-8\"",
+        "Open the file in binary mode and ignore the content",
+        "Wrap the read in a bare except",
+        "Run the script as administrator"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "py-019",
+      "category": "PYTHON",
+      "skillId": "file_log_parsing",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "Split with a limit",
+      "description": "Split a log line into date, time, level and message, keeping colons in the message.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "The second argument to split() is the maximum number of splits.",
+        "After 3 splits the rest stays together."
+      ],
+      "explanation": "split(\" \", 3) splits at most three times, giving exactly four fields. Everything after the third space,\n            including further spaces, stays in msg.",
+      "source": "Python Automation Engineer Handbook · Project P3 Log Parser and Error-Summary Generator",
+      "prerequisites": [],
+      "code": "line = \"2026-10-21 14:02:11 ERROR psu2: input lost: AC\"\ndate, time, level, msg = line.split(\" \", 3)\nprint(level, \"|\", msg)",
+      "acceptedAnswers": [
+        "ERROR | psu2: input lost: AC"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "line = \"2026-10-21 14:02:11 ERROR psu2: input lost: AC\"\ndate, time, level, msg = line.split(\" \", 3)\nprint(level, \"|\", msg)",
+        "expectedOutput": "ERROR | psu2: input lost: AC"
+      }
+    },
+    {
+      "id": "py-020",
+      "category": "PYTHON",
+      "skillId": "file_log_parsing",
+      "type": "FILL_BLANK",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "Capture the fan speed",
+      "description": "Pull the numeric speed out of a fan log line with a regular expression.",
+      "instructions": "Fill the blank so the program prints 4200.",
+      "hints": [
+        "A match object exposes captured groups.",
+        "Group 1 is the first pair of parentheses."
+      ],
+      "explanation": "m.group(1) returns the text captured by the first parenthesised group, \"4200\"; int() converts it.\n         Check that m is not None before using it in real parsers.",
+      "source": "Python Automation Engineer Handbook · Ch. 17 Regular Expressions",
+      "prerequisites": [],
+      "code": "import re\nline = \"fan3 speed=4200 rpm\"\nm = re.search(r\"speed=(\\d+)\", line)\nprint(int(m.____(1)))",
+      "acceptedAnswers": [
+        "group"
+      ],
+      "matchMode": "CODE",
+      "verify": {
+        "template": "import re\nline = \"fan3 speed=4200 rpm\"\nm = re.search(r\"speed=(\\d+)\", line)\nprint(int(m.{{answer}}(1)))",
+        "expectedOutput": "4200"
+      }
+    },
+    {
+      "id": "py-021",
+      "category": "PYTHON",
+      "skillId": "file_log_parsing",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "Most common log levels",
+      "description": "Summarise log levels for an error report.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "most_common(n) returns (item, count) tuples.",
+        "Count each level."
+      ],
+      "explanation": "Counter counts each level: ERROR 3, INFO 2, WARN 1. most_common(2) returns the two most frequent as a\n            list of (item, count) tuples.",
+      "source": "Python Automation Engineer Handbook · Ch. 18 Standard Library Mastery; Project P3",
+      "prerequisites": [],
+      "code": "from collections import Counter\nlevels = [\"INFO\", \"ERROR\", \"WARN\", \"ERROR\", \"INFO\", \"ERROR\"]\nprint(Counter(levels).most_common(2))",
+      "acceptedAnswers": [
+        "[('ERROR', 3), ('INFO', 2)]"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "from collections import Counter\nlevels = [\"INFO\", \"ERROR\", \"WARN\", \"ERROR\", \"INFO\", \"ERROR\"]\nprint(Counter(levels).most_common(2))",
+        "expectedOutput": "[('ERROR', 3), ('INFO', 2)]"
+      }
+    },
+    {
+      "id": "py-022",
+      "category": "PYTHON",
+      "skillId": "file_log_parsing",
+      "type": "CODE_PUZZLE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 330,
+      "title": "Collect error lines",
+      "description": "Keep only the lines containing ERROR, without surrounding whitespace.",
+      "instructions": "Write a list comprehension over lines that keeps lines containing \"ERROR\" and strips each one. Use line as the loop variable.",
+      "hints": [
+        "The filter goes after the for clause.",
+        "strip() removes leading and trailing whitespace, including newlines."
+      ],
+      "explanation": "The comprehension filters with if \"ERROR\" in line and transforms each kept line with strip(), which\n           removes the newline and any leading spaces.",
+      "source": "Python Automation Engineer Handbook · Ch. 9 Comprehensions; Project P3",
+      "prerequisites": [],
+      "code": "lines = [\"boot ok\\n\", \"ERROR fan1 stalled\\n\", \"  ERROR psu2 lost\\n\"]\n# your expression:",
+      "testCases": [
+        {
+          "input": "lines = [\"boot ok\\n\", \"ERROR fan1 stalled\\n\", \"  ERROR psu2 lost\\n\"]",
+          "expected": "['ERROR fan1 stalled', 'ERROR psu2 lost']"
+        }
+      ],
+      "acceptedAnswers": [
+        "[line.strip() for line in lines if \"ERROR\" in line]",
+        "[line.strip() for line in lines if \"ERROR\" in line.strip()]"
+      ],
+      "matchMode": "CODE",
+      "verify": {
+        "template": "lines = [\"boot ok\\n\", \"ERROR fan1 stalled\\n\", \"  ERROR psu2 lost\\n\"]\nprint({{answer}})",
+        "expectedOutput": "['ERROR fan1 stalled', 'ERROR psu2 lost']"
+      }
+    },
+    {
+      "id": "py-023",
+      "category": "PYTHON",
+      "skillId": "file_log_parsing",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "Find completion codes",
+      "description": "Extract two-digit hex completion codes from an IPMI trace.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "{2} means exactly two hex digits.",
+        "\\b requires a word boundary after the digits."
+      ],
+      "explanation": "findall returns every non-overlapping match. 0x1 has only one hex digit, so it does not match\n            0x[0-9A-Fa-f]{2}.",
+      "source": "Python Automation Engineer Handbook · Ch. 17 Regular Expressions",
+      "prerequisites": [],
+      "code": "import re\ntrace = \"cc=0xD5 retry cc=0x00 len=0x1\"\nprint(re.findall(r\"\\b0x[0-9A-Fa-f]{2}\\b\", trace))",
+      "acceptedAnswers": [
+        "['0xD5', '0x00']"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "import re\ntrace = \"cc=0xD5 retry cc=0x00 len=0x1\"\nprint(re.findall(r\"\\b0x[0-9A-Fa-f]{2}\\b\", trace))",
+        "expectedOutput": "['0xD5', '0x00']"
+      }
+    },
+    {
+      "id": "py-024",
+      "category": "PYTHON",
+      "skillId": "file_log_parsing",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "load vs loads",
+      "description": "You have a Redfish response body as a str in memory.",
+      "instructions": "Which call parses it into Python objects?",
+      "hints": [
+        "The trailing s stands for string.",
+        "load() expects a file object."
+      ],
+      "explanation": "json.loads parses a str; json.load reads from a file-like object. dumps/dump go the other way,\n       serialising Python objects to JSON.",
+      "source": "Python Automation Engineer Handbook · Ch. 13 Working with Structured Data",
+      "prerequisites": [],
+      "options": [
+        "json.load(body)",
+        "json.loads(body)",
+        "json.dumps(body)",
+        "json.dump(body)"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "py-025",
+      "category": "PYTHON",
+      "skillId": "file_log_parsing",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "One pass only",
+      "description": "A generator yields the line numbers of errors.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "enumerate(lines, 1) starts counting at 1.",
+        "What is left in a generator after it has been consumed?"
+      ],
+      "explanation": "The first list() consumes the generator and gets [2, 4]. A generator can be iterated only once, so the\n            second list() gets nothing.",
+      "source": "Python Automation Engineer Handbook · Ch. 15 Iterators, Generators; Ch. 39 I1",
+      "prerequisites": [],
+      "code": "def errors(lines):\n    for n, line in enumerate(lines, 1):\n        if \"ERROR\" in line:\n            yield n\n\ngen = errors([\"ok\", \"ERROR a\", \"ok\", \"ERROR b\"])\nprint(list(gen), list(gen))",
+      "acceptedAnswers": [
+        "[2, 4] []"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "def errors(lines):\n    for n, line in enumerate(lines, 1):\n        if \"ERROR\" in line:\n            yield n\n\ngen = errors([\"ok\", \"ERROR a\", \"ok\", \"ERROR b\"])\nprint(list(gen), list(gen))",
+        "expectedOutput": "[2, 4] []"
+      }
+    },
+    {
+      "id": "py-026",
+      "category": "PYTHON",
+      "skillId": "file_log_parsing",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "One test too many",
+      "description": "results.csv has a header row and 40 result rows, but the script reports 41 tests executed.",
+      "instructions": "What is the bug?",
+      "hints": [
+        "What is the first row of the file?",
+        "csv.reader does not know which row is the header."
+      ],
+      "explanation": "csv.reader returns every row, including the header. csv.DictReader consumes the header as field names,\n        or you can call next(reader) before counting. newline=\"\" is the recommended way to open CSV files.",
+      "source": "Python Automation Engineer Handbook · Ch. 13 Working with Structured Data; Project P4",
+      "prerequisites": [],
+      "code": "import csv\nwith open(\"results.csv\", newline=\"\", encoding=\"utf-8\") as f:\n    rows = list(csv.reader(f))\nprint(f\"{len(rows)} tests executed\")",
+      "options": [
+        "newline=\"\" adds an extra empty row",
+        "len() counts characters, not rows",
+        "The header row is counted as a test; use csv.DictReader or skip the first row",
+        "The file must be opened in binary mode for csv"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "py-027",
+      "category": "PYTHON",
+      "skillId": "automation_python",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "Running commands safely",
+      "description": "A health check pings a host name read from a configuration file.",
+      "instructions": "Which call is the safest?",
+      "hints": [
+        "Think about a host value like 'x; rm -rf ~'.",
+        "Which option also stops a hung command?"
+      ],
+      "explanation": "Passing an argument list without shell=True means the host is never interpreted by a shell, so it cannot\n       inject commands. capture_output and text collect output as str, and timeout prevents a hung ping from\n       blocking the run.",
+      "source": "Python Automation Engineer Handbook · Ch. 28 Linux and Command-Line Automation; Ch. 34 Security and Reliability",
+      "prerequisites": [],
+      "options": [
+        "subprocess.run(f\"ping -c 1 {host}\", shell=True)",
+        "subprocess.Popen(\"ping -c 1 \" + host, shell=True).wait()",
+        "subprocess.run([\"ping\", \"-c\", \"1\", host], capture_output=True, text=True, timeout=5)",
+        "os.system(\"ping -c 1 \" + host)"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "py-028",
+      "category": "PYTHON",
+      "skillId": "automation_python",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "finally always runs",
+      "description": "A check function returns while a cleanup block is pending.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "finally runs before the function actually returns.",
+        "The caller prints the return value last."
+      ],
+      "explanation": "The return value is computed, then the finally block runs, then the function returns to the caller,\n            which prints \"ok\". This is why cleanup such as closing a BMC session belongs in finally.",
+      "source": "Python Automation Engineer Handbook · Ch. 11 Exception Handling; Ch. 39 B6",
+      "prerequisites": [],
+      "code": "def check():\n    try:\n        print(\"try\")\n        return \"ok\"\n    finally:\n        print(\"cleanup\")\n\nprint(check())",
+      "acceptedAnswers": [
+        "try\ncleanup\nok"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "def check():\n    try:\n        print(\"try\")\n        return \"ok\"\n    finally:\n        print(\"cleanup\")\n\nprint(check())",
+        "expectedOutput": "try\ncleanup\nok"
+      }
+    },
+    {
+      "id": "py-029",
+      "category": "PYTHON",
+      "skillId": "automation_python",
+      "type": "FILL_BLANK",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "A clock for timeouts",
+      "description": "A wait loop must not break if NTP adjusts the system clock during the test.",
+      "instructions": "Fill the blank with the time function suited to measuring timeouts.",
+      "hints": [
+        "Wall-clock time can jump backwards or forwards.",
+        "The answer appears later in the same snippet."
+      ],
+      "explanation": "time.monotonic() never goes backwards and is unaffected by clock changes, so durations measured with\n         it are reliable. time.time() follows the wall clock, which NTP or a user can change mid-test.",
+      "source": "Python Automation Engineer Handbook · Ch. 18 Standard Library Mastery; API & Protocol Automation Handbook Q24",
+      "prerequisites": [],
+      "code": "import time\ndeadline = time.____() + 30\nwhile not device_ready():\n    if time.monotonic() > deadline:\n        raise TimeoutError(\"device not ready after 30 s\")\n    time.sleep(1)",
+      "acceptedAnswers": [
+        "monotonic"
+      ],
+      "matchMode": "CODE"
+    },
+    {
+      "id": "py-030",
+      "category": "PYTHON",
+      "skillId": "automation_python",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "Custom exception hierarchy",
+      "description": "A lab framework defines its own exceptions.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "An except clause also catches subclasses.",
+        "type(e) is the class that was actually raised."
+      ],
+      "explanation": "except LabError catches any subclass, including DeviceTimeout. The object keeps its real class, and\n            str(e) is the message passed to the constructor.",
+      "source": "Python Automation Engineer Handbook · Ch. 11 Exception Handling; Ch. 14 OOP",
+      "prerequisites": [],
+      "code": "class LabError(Exception):\n    pass\n\nclass DeviceTimeout(LabError):\n    pass\n\ntry:\n    raise DeviceTimeout(\"psu2 did not respond\")\nexcept LabError as e:\n    print(type(e).__name__, \"-\", e)",
+      "acceptedAnswers": [
+        "DeviceTimeout - psu2 did not respond"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "class LabError(Exception):\n    pass\n\nclass DeviceTimeout(LabError):\n    pass\n\ntry:\n    raise DeviceTimeout(\"psu2 did not respond\")\nexcept LabError as e:\n    print(type(e).__name__, \"-\", e)",
+        "expectedOutput": "DeviceTimeout - psu2 did not respond"
+      }
+    },
+    {
+      "id": "py-031",
+      "category": "PYTHON",
+      "skillId": "automation_python",
+      "type": "CODE_PUZZLE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 360,
+      "title": "All sensors in range",
+      "description": "A thermal check passes only if every reading is between 0 and 85 °C inclusive.",
+      "instructions": "Write one expression that is True when every value in the dict readings is within 0..85. Use all() with a generator expression and the loop variable v.",
+      "hints": [
+        "Chained comparisons like 0 <= v <= 85 work in Python.",
+        "Iterate over readings.values()."
+      ],
+      "explanation": "all() returns True only if every item of the generator is truthy, and stops at the first False.\n           The chained comparison 0 <= v <= 85 checks both bounds at once.",
+      "source": "Python Automation Engineer Handbook · Ch. 9 Comprehensions; Project P10 Device-Health Validation",
+      "prerequisites": [],
+      "code": "readings = {\"cpu0\": 71, \"cpu1\": 88}\n# your expression:",
+      "testCases": [
+        {
+          "input": "{\"cpu0\": 71, \"cpu1\": 64}",
+          "expected": "True"
+        },
+        {
+          "input": "{\"cpu0\": 71, \"cpu1\": 88}",
+          "expected": "False"
+        }
+      ],
+      "acceptedAnswers": [
+        "all(0 <= v <= 85 for v in readings.values())",
+        "all(v >= 0 and v <= 85 for v in readings.values())"
+      ],
+      "matchMode": "CODE",
+      "verify": {
+        "template": "ok = {\"cpu0\": 71, \"cpu1\": 64}\nbad = {\"cpu0\": 71, \"cpu1\": 88}\nfor readings in (ok, bad):\n    print({{answer}})",
+        "expectedOutput": "True\nFalse"
+      }
+    },
+    {
+      "id": "py-032",
+      "category": "PYTHON",
+      "skillId": "automation_python",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 210,
+      "title": "Logging the right way",
+      "description": "A test helper logs every BMC request at DEBUG level, but DEBUG is normally switched off.",
+      "instructions": "Which call avoids formatting the message when DEBUG is disabled?",
+      "hints": [
+        "When is an f-string evaluated?",
+        "logging can defer the % formatting."
+      ],
+      "explanation": "With %-style arguments, logging formats the message only if the record is actually emitted. An f-string\n       or concatenation is built before the call, even when the level is disabled. print bypasses logging\n       configuration entirely.",
+      "source": "Python Automation Engineer Handbook · Ch. 30 Logging, Reporting and Observability; Ch. 39 B13",
+      "prerequisites": [],
+      "options": [
+        "print(\"GET\", url, elapsed)",
+        "log.debug(f\"GET {url} took {elapsed:.2f} s\")",
+        "log.debug(\"GET \" + url + \" took \" + str(elapsed))",
+        "log.debug(\"GET %s took %.2f s\", url, elapsed)"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "id": "py-033",
+      "category": "PYTHON",
+      "skillId": "automation_python",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "HARD",
+      "estimatedSeconds": 300,
+      "title": "A session context manager",
+      "description": "A generator-based context manager wraps a BMC session.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "Code before yield is setup; the yielded value is bound by as.",
+        "finally runs when the with block exits."
+      ],
+      "explanation": "Entering the with block runs the code up to yield; the yielded value becomes s. When the block ends,\n            execution resumes after yield, and the finally clause prints the close message.",
+      "source": "Python Automation Engineer Handbook · Ch. 15 Context Managers; Ch. 39 I3",
+      "prerequisites": [],
+      "code": "from contextlib import contextmanager\n\n@contextmanager\ndef session(host):\n    print(\"open\", host)\n    try:\n        yield host.upper()\n    finally:\n        print(\"close\", host)\n\nwith session(\"bmc1\") as s:\n    print(\"using\", s)",
+      "acceptedAnswers": [
+        "open bmc1\nusing BMC1\nclose bmc1"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "from contextlib import contextmanager\n\n@contextmanager\ndef session(host):\n    print(\"open\", host)\n    try:\n        yield host.upper()\n    finally:\n        print(\"close\", host)\n\nwith session(\"bmc1\") as s:\n    print(\"using\", s)",
+        "expectedOutput": "open bmc1\nusing BMC1\nclose bmc1"
+      }
+    },
+    {
+      "id": "py-034",
+      "category": "PYTHON",
+      "skillId": "automation_python",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "The always-healthy sensor",
+      "description": "A dashboard shows 0.0 °C for a sensor that is actually disconnected.",
+      "instructions": "What is the bug?",
+      "hints": [
+        "What happens to the real error?",
+        "Is 0.0 distinguishable from a real reading?"
+      ],
+      "explanation": "A bare except catches everything, even KeyboardInterrupt, and hides the real failure behind a valid-looking\n        number. Catch the specific exception you expect and either re-raise it or return None so the caller can\n        tell a missing reading from 0.0.",
+      "source": "Python Automation Engineer Handbook · Ch. 11 Exception Handling; Ch. 34 Security and Reliability",
+      "prerequisites": [],
+      "code": "def read_temp(sensor):\n    try:\n        return float(sensor.read())\n    except:\n        return 0.0",
+      "options": [
+        "float() cannot convert sensor output",
+        "return cannot be used inside try",
+        "The bare except swallows every error and returns a plausible-looking value",
+        "The function should use a while loop"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "py-035",
+      "category": "PYTHON",
+      "skillId": "automation_python",
+      "type": "ARRANGE_STEPS",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 300,
+      "title": "Run a command and check it",
+      "description": "Assemble a small script that runs uptime safely and fails loudly on errors.",
+      "instructions": "Put the lines in an order that runs correctly. Indentation is shown.",
+      "hints": [
+        "Imports come first.",
+        "Check the return code before trusting stdout."
+      ],
+      "explanation": "The module is imported, the command runs with a timeout, a non-zero return code raises with the\n            captured stderr, and only then is the output used.",
+      "source": "Python Automation Engineer Handbook · Ch. 28 Linux and Command-Line Automation; Project P8",
+      "prerequisites": [],
+      "steps": [
+        "import subprocess",
+        "result = subprocess.run([\"uptime\"], capture_output=True, text=True, timeout=5)",
+        "if result.returncode != 0:",
+        "    raise RuntimeError(result.stderr)",
+        "print(result.stdout.strip())"
+      ]
+    }
+  ]
+}

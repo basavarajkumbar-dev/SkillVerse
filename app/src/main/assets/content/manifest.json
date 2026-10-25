@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": 1,
+  "packs": [
+    "pack_python.json",
+    "pack_debugging_logic.json",
+    "pack_test_automation.json",
+    "pack_api_testing.json",
+    "pack_linux_git.json",
+    "pack_embedded_cicd.json"
+  ],
+  "skills": "skills.json",
+  "bosses": "bosses.json",
+  "projects": "projects.json"
+}

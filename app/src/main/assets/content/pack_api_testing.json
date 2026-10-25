@@ -1,0 +1,275 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": 1,
+  "packId": "api_testing",
+  "title": "API Testing",
+  "sources": [
+    "API & Protocol Automation Handbook (Edition 1.0, Oct 2026)",
+    "Python Automation Engineer Handbook (complete edition, Oct 2026)"
+  ],
+  "challenges": [
+    {
+      "id": "api-001",
+      "category": "API_TESTING",
+      "skillId": "api_testing",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 210,
+      "title": "Status for async work",
+      "description": "A POST to SimpleUpdate starts a firmware update that will take several minutes.",
+      "instructions": "Which status code best signals \"accepted, still in progress\" with a task to poll?",
+      "hints": [
+        "The work has not finished yet.",
+        "Redfish returns a task monitor for long operations."
+      ],
+      "explanation": "202 Accepted means the request was accepted for processing but is not complete; Redfish services return a\n       Location header pointing to a task monitor. 201 means a resource was created, 204 success with no body.",
+      "source": "API & Protocol Automation Handbook Q6, Q18",
+      "prerequisites": [],
+      "options": [
+        "202 Accepted",
+        "200 OK",
+        "201 Created",
+        "204 No Content"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "api-002",
+      "category": "API_TESTING",
+      "skillId": "api_testing",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 210,
+      "title": "Do not hard-code resource paths",
+      "description": "A test uses /redfish/v1/Systems/1 directly and fails on a new platform.",
+      "instructions": "What should the automation do instead?",
+      "hints": [
+        "Resource IDs are implementation-specific.",
+        "Collections list their members."
+      ],
+      "explanation": "Redfish IDs vary by implementation (system, 1, sys0...). Start at the service root, follow the Systems link,\n       and use each member's @odata.id, which keeps tests portable across vendors.",
+      "source": "API & Protocol Automation Handbook Q13; Project 1",
+      "prerequisites": [],
+      "options": [
+        "Parse the HTML web UI",
+        "Discover members from the Systems collection's Members @odata.id links",
+        "Ask the vendor to rename its system",
+        "Try /Systems/1 to /Systems/100 until one works"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "api-003",
+      "category": "API_TESTING",
+      "skillId": "api_testing",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "Walk a Redfish collection",
+      "description": "Validate a Systems collection response.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "rsplit(\"/\", 1)[-1] keeps the text after the last slash.",
+        "The count matches the number of members."
+      ],
+      "explanation": "The comprehension takes the last path segment of each member link. Checking Members@odata.count against\n            the actual list length is a cheap consistency assertion worth keeping in collection tests.",
+      "source": "API & Protocol Automation Handbook · Redfish collections; Q4",
+      "prerequisites": [],
+      "code": "import json\nbody = '{\"Members@odata.count\": 2, \"Members\": [{\"@odata.id\": \"/redfish/v1/Systems/sys0\"}, {\"@odata.id\": \"/redfish/v1/Systems/sys1\"}]}'\ndata = json.loads(body)\nids = [m[\"@odata.id\"].rsplit(\"/\", 1)[-1] for m in data[\"Members\"]]\nprint(data[\"Members@odata.count\"] == len(ids), ids[-1])",
+      "acceptedAnswers": [
+        "True sys1"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "import json\nbody = '{\"Members@odata.count\": 2, \"Members\": [{\"@odata.id\": \"/redfish/v1/Systems/sys0\"}, {\"@odata.id\": \"/redfish/v1/Systems/sys1\"}]}'\ndata = json.loads(body)\nids = [m[\"@odata.id\"].rsplit(\"/\", 1)[-1] for m in data[\"Members\"]]\nprint(data[\"Members@odata.count\"] == len(ids), ids[-1])",
+        "expectedOutput": "True sys1"
+      }
+    },
+    {
+      "id": "api-004",
+      "category": "API_TESTING",
+      "skillId": "api_testing",
+      "type": "CODE_PUZZLE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 270,
+      "title": "Read the health",
+      "description": "Redfish resources report health in a nested Status object.",
+      "instructions": "Write the expression that reads the Health value from the parsed response dict data.",
+      "hints": [
+        "Status is an object inside the resource.",
+        "Index the outer key, then the inner one."
+      ],
+      "explanation": "Redfish puts State and Health inside a Status object, so the value is data[\"Status\"][\"Health\"]. Using\n           .get with a default avoids KeyError when validating optional properties.",
+      "source": "API & Protocol Automation Handbook · Redfish resource model; Project 1",
+      "prerequisites": [],
+      "code": "data = {\"Id\": \"sys0\", \"Status\": {\"State\": \"Enabled\", \"Health\": \"OK\"}}\n# your expression:",
+      "testCases": [
+        {
+          "input": "data = {\"Id\": \"sys0\", \"Status\": {\"State\": \"Enabled\", \"Health\": \"OK\"}}",
+          "expected": "OK"
+        }
+      ],
+      "acceptedAnswers": [
+        "data[\"Status\"][\"Health\"]",
+        "data.get(\"Status\", {}).get(\"Health\")"
+      ],
+      "matchMode": "CODE",
+      "verify": {
+        "template": "data = {\"Id\": \"sys0\", \"Status\": {\"State\": \"Enabled\", \"Health\": \"OK\"}}\nprint({{answer}})",
+        "expectedOutput": "OK"
+      }
+    },
+    {
+      "id": "api-005",
+      "category": "API_TESTING",
+      "skillId": "api_testing",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "HARD",
+      "estimatedSeconds": 240,
+      "title": "Safe concurrent PATCH",
+      "description": "Two automation jobs might PATCH the same AccountService settings at once.",
+      "instructions": "How does Redfish let a client avoid overwriting a newer change?",
+      "hints": [
+        "The server labels each version of a resource.",
+        "Conditional requests compare that label."
+      ],
+      "explanation": "GET returns an ETag identifying the resource version. Sending it back in If-Match makes the PATCH\n       conditional: if someone changed the resource since, the server answers 412 instead of overwriting.",
+      "source": "API & Protocol Automation Handbook Q9",
+      "prerequisites": [],
+      "options": [
+        "Send the request twice",
+        "Add a random sleep before every PATCH",
+        "Send the resource's ETag in an If-Match header; a mismatch returns 412 Precondition Failed",
+        "Use PUT instead of PATCH"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "api-006",
+      "category": "API_TESTING",
+      "skillId": "api_testing",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "The test that hung all night",
+      "description": "A nightly job hung for eight hours when a BMC stopped responding mid-request.",
+      "instructions": "What is the bug?",
+      "hints": [
+        "What is requests' default timeout?",
+        "A server that accepts the connection but never answers..."
+      ],
+      "explanation": "requests has no default timeout, so a silent BMC blocks forever. Always pass timeout=(connect, read), e.g.\n        timeout=(5, 30), and let the framework convert the exception into a clear test failure.",
+      "source": "API & Protocol Automation Handbook Q19; Python Automation Engineer Handbook · Ch. 27 API Testing with Python",
+      "prerequisites": [],
+      "code": "import requests\n\ndef get_power(session, base):\n    resp = session.get(f\"{base}/redfish/v1/Chassis/chassis0/Power\")\n    resp.raise_for_status()\n    return resp.json()",
+      "options": [
+        "resp.json() must be called before raise_for_status()",
+        "The request has no timeout, so requests can wait forever on an unresponsive server",
+        "raise_for_status() hangs on errors",
+        "f-strings cannot build URLs"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "api-007",
+      "category": "API_TESTING",
+      "skillId": "api_testing",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "401 versus 403",
+      "description": "A test user can log in but receives an error when trying to change NTP settings.",
+      "instructions": "Which status code describes \"authenticated, but not allowed\"?",
+      "hints": [
+        "One code means missing or invalid credentials.",
+        "The other means valid credentials without permission."
+      ],
+      "explanation": "401 means the request lacks valid authentication. 403 means the server knows who you are but your role\n       lacks the privilege, such as an Operator trying a ConfigureManager action.",
+      "source": "API & Protocol Automation Handbook Q14 (privileges and roles)",
+      "prerequisites": [],
+      "options": [
+        "404 Not Found",
+        "401 Unauthorized",
+        "405 Method Not Allowed",
+        "403 Forbidden"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "id": "api-008",
+      "category": "API_TESTING",
+      "skillId": "api_testing",
+      "type": "ARRANGE_STEPS",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "Redfish session lifecycle",
+      "description": "Session authentication avoids sending the password with every request.",
+      "instructions": "Order the steps of a well-behaved Redfish session.",
+      "hints": [
+        "You cannot use a token before you have received it.",
+        "Clean up at the end."
+      ],
+      "explanation": "Creating a session returns a token and the session's URI. The token authenticates later requests;\n            deleting the session at the end frees one of the BMC's limited session slots.",
+      "source": "API & Protocol Automation Handbook Q17; Project 1",
+      "prerequisites": [],
+      "steps": [
+        "POST credentials to /redfish/v1/SessionService/Sessions",
+        "Read X-Auth-Token and the Location header from the response",
+        "Send X-Auth-Token with each later request",
+        "DELETE the session URI from Location when finished"
+      ]
+    },
+    {
+      "id": "api-009",
+      "category": "API_TESTING",
+      "skillId": "api_testing",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 210,
+      "title": "Self-signed BMC certificates",
+      "description": "Lab BMCs use certificates signed by an internal CA, and requests raises SSLError.",
+      "instructions": "What is the correct fix?",
+      "hints": [
+        "Keep TLS verification on.",
+        "Tell requests which CA to trust."
+      ],
+      "explanation": "verify accepts a path to a CA bundle, so traffic stays encrypted and authenticated. verify=False disables\n       certificate checks and invites man-in-the-middle attacks, even in labs.",
+      "source": "API & Protocol Automation Handbook · Ch. 2.3 TLS, certificates; Ch. 34 Security (Python handbook)",
+      "prerequisites": [],
+      "options": [
+        "Set verify=False everywhere and silence the warnings",
+        "Switch the BMC to plain HTTP",
+        "Retry until the error disappears",
+        "Pass the internal CA bundle: verify=\"/etc/lab/ca.pem\""
+      ],
+      "correctIndex": 3
+    },
+    {
+      "id": "api-010",
+      "category": "API_TESTING",
+      "skillId": "api_testing",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 300,
+      "title": "Following nextLink",
+      "description": "Simulate paging through a large collection.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "The loop stops when get() returns None.",
+        "Page 3 is empty but still visited."
+      ],
+      "explanation": "The loop follows Members@odata.nextLink until a page has none. It collects 1, 2 and 3; the last page is\n            empty and ends the loop. Always follow nextLink instead of assuming one page holds everything.",
+      "source": "API & Protocol Automation Handbook Q4",
+      "prerequisites": [],
+      "code": "pages = {\n    \"/p1\": {\"Members\": [1, 2], \"Members@odata.nextLink\": \"/p2\"},\n    \"/p2\": {\"Members\": [3], \"Members@odata.nextLink\": \"/p3\"},\n    \"/p3\": {\"Members\": []},\n}\nurl, items = \"/p1\", []\nwhile url:\n    page = pages[url]\n    items += page[\"Members\"]\n    url = page.get(\"Members@odata.nextLink\")\nprint(len(items), items[-1])",
+      "acceptedAnswers": [
+        "3 3"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "pages = {\n    \"/p1\": {\"Members\": [1, 2], \"Members@odata.nextLink\": \"/p2\"},\n    \"/p2\": {\"Members\": [3], \"Members@odata.nextLink\": \"/p3\"},\n    \"/p3\": {\"Members\": []},\n}\nurl, items = \"/p1\", []\nwhile url:\n    page = pages[url]\n    items += page[\"Members\"]\n    url = page.get(\"Members@odata.nextLink\")\nprint(len(items), items[-1])",
+        "expectedOutput": "3 3"
+      }
+    }
+  ]
+}

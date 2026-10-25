@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": 1,
+  "projects": [
+    {
+      "id": "proj-log-parser",
+      "title": "Log Parser & Error Summary",
+      "description": "The core skills of handbook Project P3: split, regex, Counter, generators and clean filtering.",
+      "source": "Python Automation Engineer Handbook · Project P3",
+      "challengeIds": [
+        "py-019",
+        "py-020",
+        "py-021",
+        "py-022",
+        "py-023",
+        "py-025"
+      ]
+    },
+    {
+      "id": "proj-redfish-framework",
+      "title": "Redfish API Automation Framework",
+      "description": "Discovery, response validation, timeouts, sessions and pagination for a Redfish client.",
+      "source": "Python Automation Engineer Handbook · Project P7; API & Protocol Automation Handbook · Project 1",
+      "challengeIds": [
+        "api-002",
+        "api-003",
+        "api-004",
+        "api-006",
+        "api-008",
+        "api-010"
+      ]
+    },
+    {
+      "id": "proj-pytest-framework",
+      "title": "Reusable pytest Framework",
+      "description": "Fixtures, conftest, exceptions, scopes and JUnit reporting for a team framework.",
+      "source": "Python Automation Engineer Handbook · Project P6",
+      "challengeIds": [
+        "ta-001",
+        "ta-003",
+        "ta-004",
+        "ta-007",
+        "ta-009",
+        "ta-014"
+      ]
+    },
+    {
+      "id": "proj-firmware-validation",
+      "title": "UART & Firmware Validation",
+      "description": "Console settings, boot analysis, version gates and journald for device validation.",
+      "source": "Python Automation Engineer Handbook · Projects P9–P10",
+      "challengeIds": [
+        "emb-001",
+        "emb-003",
+        "emb-004",
+        "emb-005",
+        "lx-003"
+      ]
+    },
+    {
+      "id": "proj-ci-pipeline",
+      "title": "Python Test Automation CI Pipeline",
+      "description": "Branching, stages, reports, credentials and exit codes for a Jenkins pipeline.",
+      "source": "Git, Jenkins & CI/CD Handbook · Project 1",
+      "challengeIds": [
+        "git-002",
+        "ci-001",
+        "ci-002",
+        "ci-003",
+        "ci-005",
+        "ta-014"
+      ]
+    }
+  ]
+}

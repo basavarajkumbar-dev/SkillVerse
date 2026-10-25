@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": 1,
+  "packId": "test_automation",
+  "title": "Test Automation",
+  "sources": [
+    "Python Automation Engineer Handbook (complete edition, Oct 2026)",
+    "Git, Jenkins & CI/CD Automation Handbook (Edition 1.0, Oct 2026)",
+    "API & Protocol Automation Handbook (Edition 1.0, Oct 2026)"
+  ],
+  "challenges": [
+    {
+      "id": "ta-001",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "What a fixture is",
+      "description": "pytest fixtures replace most setUp/tearDown code in automation frameworks.",
+      "instructions": "Which description of a pytest fixture is correct?",
+      "hints": [
+        "Tests receive fixtures as arguments.",
+        "Code after yield in a fixture runs as teardown."
+      ],
+      "explanation": "A fixture is a function decorated with @pytest.fixture. A test requests it by naming it as a parameter;\n       pytest runs the fixture, passes its value in, and runs any code after yield as teardown. Scope controls\n       how often it is created.",
+      "source": "Python Automation Engineer Handbook · Ch. 25 pytest; API & Protocol Automation Handbook Q27",
+      "prerequisites": [],
+      "options": [
+        "A function that provides set-up (and optional teardown) to tests that request it by parameter name",
+        "A plugin that generates HTML reports",
+        "A configuration file that lists tests to skip",
+        "A decorator that makes a test run twice"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "ta-002",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "Counting parametrised cases",
+      "description": "Two parametrize decorators are stacked on one test.",
+      "instructions": "How many test cases does pytest collect from this function? Type a number.",
+      "hints": [
+        "Stacked parametrize decorators combine as a cross product.",
+        "2 firmware versions × 3 interfaces."
+      ],
+      "explanation": "Stacking parametrize decorators generates every combination: 2 × 3 = 6 test cases, each reported with its\n            own ID such as test_sel_clear[lan-2.13].",
+      "source": "Python Automation Engineer Handbook · Ch. 25 pytest (parametrize)",
+      "prerequisites": [],
+      "code": "import pytest\n\n@pytest.mark.parametrize(\"fw\", [\"2.13\", \"2.14\"])\n@pytest.mark.parametrize(\"iface\", [\"lan\", \"lanplus\", \"serial\"])\ndef test_sel_clear(fw, iface):\n    ...",
+      "acceptedAnswers": [
+        "6"
+      ],
+      "matchMode": "TRIMMED"
+    },
+    {
+      "id": "ta-003",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "FILL_BLANK",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "Fixture teardown",
+      "description": "This fixture must close the BMC session after each test, even when the test fails.",
+      "instructions": "Fill the blank so the test receives the session and the close runs afterwards.",
+      "hints": [
+        "return would end the fixture before teardown.",
+        "The keyword pauses the function and resumes it later."
+      ],
+      "explanation": "yield hands the session to the test and pauses the fixture. After the test finishes, pass or fail, pytest\n         resumes the fixture and the code after yield runs as teardown.",
+      "source": "Python Automation Engineer Handbook · Ch. 25 pytest (fixtures)",
+      "prerequisites": [],
+      "code": "import pytest\n\n@pytest.fixture\ndef bmc_session():\n    session = open_session(\"bmc1\")\n    ____ session\n    session.close()",
+      "acceptedAnswers": [
+        "yield"
+      ],
+      "matchMode": "CODE"
+    },
+    {
+      "id": "ta-004",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "conftest.py",
+      "description": "Several test modules need the same bmc_session fixture.",
+      "instructions": "Where should the shared fixture live?",
+      "hints": [
+        "No import is needed for fixtures in this file.",
+        "Its fixtures apply to its directory and below."
+      ],
+      "explanation": "pytest automatically loads conftest.py files and makes their fixtures and hooks available to tests in that\n       directory and its subdirectories, without imports.",
+      "source": "Python Automation Engineer Handbook · Ch. 25 pytest; API & Protocol Automation Handbook Q28",
+      "prerequisites": [],
+      "options": [
+        "In pytest's site-packages folder",
+        "In a conftest.py in the tests directory; pytest discovers it automatically",
+        "In setup.py",
+        "In every test file, copied"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "ta-005",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "Comparing measured values",
+      "description": "A test asserts that a measured PSU efficiency equals the expected 0.94.",
+      "instructions": "Which assertion is the right one?",
+      "hints": [
+        "Floating-point values are rarely exactly equal.",
+        "pytest has a helper for tolerant comparisons."
+      ],
+      "explanation": "pytest.approx compares within a tolerance, which is what measurements need. Exact float equality fails for\n       tiny representation errors, string comparison is fragile, and is compares identity.",
+      "source": "Python Automation Engineer Handbook · Ch. 25 pytest; API & Protocol Automation Handbook Q33",
+      "prerequisites": [],
+      "options": [
+        "assert efficiency == 0.94",
+        "assert efficiency is 0.94",
+        "assert efficiency == pytest.approx(0.94, abs=0.005)",
+        "assert str(efficiency) == \"0.94\""
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "ta-006",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "The assertion that never fails",
+      "description": "A status test has never failed, even against a BMC returning 500.",
+      "instructions": "What is the bug?",
+      "hints": [
+        "What type is (a, b)?",
+        "Is a non-empty tuple truthy?"
+      ],
+      "explanation": "assert (x, \"msg\") asserts a two-item tuple, which is always true. Write assert resp.status_code == 200,\n        \"service root unavailable\" without the parentheses. Python even emits a SyntaxWarning for this.",
+      "source": "Python Automation Engineer Handbook · Ch. 25 pytest; Ch. 37 Code Quality",
+      "prerequisites": [],
+      "code": "def test_service_root(client):\n    resp = client.get(\"/redfish/v1/\")\n    assert (resp.status_code == 200, \"service root unavailable\")",
+      "options": [
+        "client.get must be awaited",
+        "The parentheses build a non-empty tuple, which is always truthy, so the assert always passes",
+        "The message must come before the condition",
+        "assert cannot compare integers"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "ta-007",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "FILL_BLANK",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "Expecting an exception",
+      "description": "A parser must reject a malformed SEL entry with ValueError.",
+      "instructions": "Fill the blank to assert that the exception is raised.",
+      "hints": [
+        "It is used as a context manager.",
+        "The test fails if no exception occurs."
+      ],
+      "explanation": "pytest.raises(ValueError) passes if the block raises ValueError (or a subclass) and fails if it does not.\n         Add match=\"...\" to check the message too.",
+      "source": "Python Automation Engineer Handbook · Ch. 25 pytest",
+      "prerequisites": [],
+      "code": "import pytest\n\ndef test_rejects_bad_entry():\n    with pytest.____(ValueError):\n        parse_sel_entry(\"garbage\")",
+      "acceptedAnswers": [
+        "raises"
+      ],
+      "matchMode": "CODE"
+    },
+    {
+      "id": "ta-008",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "HARD",
+      "estimatedSeconds": 240,
+      "title": "Session fixtures and xdist",
+      "description": "You start running the suite with pytest -n 4 (pytest-xdist). A session-scoped fixture that powers on the DUT now misbehaves.",
+      "instructions": "Why?",
+      "hints": [
+        "How many processes does -n 4 start?",
+        "Fixture scope is per process."
+      ],
+      "explanation": "xdist starts separate worker processes and each one has its own test session, so a session fixture runs in\n       every worker. Shared hardware needs a lock (for example a file lock) or one device per worker.",
+      "source": "API & Protocol Automation Handbook Q35; Python Automation Engineer Handbook · Ch. 25",
+      "prerequisites": [],
+      "options": [
+        "Session fixtures run only after all tests",
+        "xdist disables fixtures",
+        "xdist runs tests in a random Python version",
+        "Each xdist worker is a separate process with its own session, so the fixture runs once per worker"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "id": "ta-009",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "Module-scoped setup",
+      "description": "Three tests in one module use the same module-scoped fixture.",
+      "instructions": "How many times is \"download image\" printed when this module runs? Type a number.",
+      "hints": [
+        "scope=\"module\" creates the fixture once per module.",
+        "All three tests share the cached value."
+      ],
+      "explanation": "A module-scoped fixture is created the first time a test in the module needs it and reused for the\n            rest of the module, so the download runs once.",
+      "source": "Python Automation Engineer Handbook · Ch. 25 pytest (fixture scope)",
+      "prerequisites": [],
+      "code": "import pytest\n\n@pytest.fixture(scope=\"module\")\ndef firmware_image():\n    print(\"download image\")\n    return \"bmc-2.14.1.bin\"\n\ndef test_size(firmware_image): ...\ndef test_signature(firmware_image): ...\ndef test_version(firmware_image): ...",
+      "acceptedAnswers": [
+        "1"
+      ],
+      "matchMode": "TRIMMED"
+    },
+    {
+      "id": "ta-010",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 210,
+      "title": "Faking the environment",
+      "description": "A function reads the BMC address from the BMC_HOST environment variable.",
+      "instructions": "What is the cleanest way to test it?",
+      "hints": [
+        "pytest has a built-in fixture for temporary changes.",
+        "Changes should be undone after the test."
+      ],
+      "explanation": "monkeypatch.setenv sets the variable for one test and restores the original value automatically, so tests\n       stay isolated.",
+      "source": "API & Protocol Automation Handbook Q31; Python Automation Engineer Handbook · Ch. 26 unittest and Mocking",
+      "prerequisites": [],
+      "options": [
+        "Use the monkeypatch fixture: monkeypatch.setenv(\"BMC_HOST\", \"10.0.0.5\")",
+        "Edit the real environment of the CI agent",
+        "Hard-code the address in the function",
+        "Skip the test"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "ta-011",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "ARRANGE_STEPS",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "Inside a pytest run",
+      "description": "Order what pytest does when you run a suite.",
+      "instructions": "Put the phases in the order pytest performs them for a test that uses a fixture.",
+      "hints": [
+        "Nothing can run before pytest knows what exists.",
+        "Teardown follows the test."
+      ],
+      "explanation": "pytest first collects tests, then for each test sets up fixtures, runs the test and tears the fixtures\n            down. Reports such as --junitxml are written at the end of the session.",
+      "source": "Python Automation Engineer Handbook · Ch. 25 pytest; Git, Jenkins & CI/CD Handbook · Ch. 15 Pytest Reports",
+      "prerequisites": [],
+      "steps": [
+        "Collect test files and functions",
+        "Run the fixture set-up code",
+        "Run the test function",
+        "Run the fixture teardown code",
+        "Write the results report (for example JUnit XML)"
+      ]
+    },
+    {
+      "id": "ta-012",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "Order-dependent tests",
+      "description": "test_count passes only when test_add runs first.",
+      "instructions": "What is the design flaw?",
+      "hints": [
+        "Could test_count pass if run alone?",
+        "Each test should create its own data."
+      ],
+      "explanation": "Tests must be independent. test_count relies on state created by test_add, so running it alone, in a\n        different order or in parallel fails. Create the data in a fixture so each test gets a fresh list.",
+      "source": "Python Automation Engineer Handbook · Ch. 37 Code Quality and Testing Standards",
+      "prerequisites": [],
+      "code": "DEVICES = []\n\ndef test_add():\n    DEVICES.append(\"nvme0\")\n    assert \"nvme0\" in DEVICES\n\ndef test_count():\n    assert len(DEVICES) == 1",
+      "options": [
+        "Tests share a module-level list, so one test depends on another's side effects",
+        "append() returns None",
+        "len() does not work on lists",
+        "Test names must start with check_"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "ta-013",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "Selecting by marker",
+      "description": "Hardware-dependent tests are marked @pytest.mark.hardware.",
+      "instructions": "What does pytest -m \"not hardware\" do?",
+      "hints": [
+        "-m takes a boolean expression over markers.",
+        "not inverts the selection."
+      ],
+      "explanation": "-m selects tests by marker expression; not hardware deselects marked tests. This lets CI run the\n       simulator-only subset on every commit and the hardware subset on a lab agent.",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 17 Test Selection and Regression Strategies",
+      "prerequisites": [],
+      "options": [
+        "Fails if any hardware test exists",
+        "Runs every test except those marked hardware",
+        "Deletes the hardware marker",
+        "Runs only the hardware tests"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "ta-014",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "CODE_PUZZLE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 300,
+      "title": "JUnit XML for Jenkins",
+      "description": "Jenkins needs a JUnit XML report to show test trends.",
+      "instructions": "Write the pytest command that runs the tests and writes a JUnit XML report to reports/junit.xml.",
+      "hints": [
+        "The option name contains junit and xml.",
+        "It takes the output path after an = sign."
+      ],
+      "explanation": "--junitxml=PATH (also spelled --junit-xml) writes a JUnit-format report that Jenkins' junit step can\n           publish. python -m pytest is equivalent and ensures the right interpreter's pytest is used.",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 15 Pytest Reports and Test Results",
+      "prerequisites": [],
+      "acceptedAnswers": [
+        "pytest --junitxml=reports/junit.xml",
+        "python -m pytest --junitxml=reports/junit.xml",
+        "pytest --junit-xml=reports/junit.xml",
+        "python -m pytest --junit-xml=reports/junit.xml"
+      ],
+      "matchMode": "NORMALIZED"
+    },
+    {
+      "id": "ta-015",
+      "category": "TEST_AUTOMATION",
+      "skillId": "test_frameworks",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "Handling a flaky test",
+      "description": "A Redfish test fails about once in twenty nightly runs with a connection reset.",
+      "instructions": "What is the professional response?",
+      "hints": [
+        "Flaky tests erode trust in the whole suite.",
+        "Retries can hide real product bugs."
+      ],
+      "explanation": "Quarantining keeps the main signal trustworthy while the issue is investigated. Blind retries can hide a\n       real BMC bug such as a web-server crash; deletion loses coverage.",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 16 Reliable Test Pipelines",
+      "prerequisites": [],
+      "options": [
+        "Delete the test",
+        "Mark it as expected to fail permanently",
+        "Wrap the test in a loop that retries until it passes, forever",
+        "Quarantine it with a tracked issue, collect evidence from failures, and fix the root cause"
+      ],
+      "correctIndex": 3
+    }
+  ]
+}

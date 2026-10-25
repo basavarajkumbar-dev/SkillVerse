@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": 1,
+  "packId": "linux_git",
+  "title": "Linux & Git",
+  "sources": [
+    "Linux, Bash & Embedded Debugging Handbook (Oct 2026)",
+    "Git, Jenkins & CI/CD Automation Handbook (Edition 1.0, Oct 2026)"
+  ],
+  "challenges": [
+    {
+      "id": "lx-001",
+      "category": "LINUX",
+      "skillId": "git_linux",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "Counting matches",
+      "description": "boot.log contains 3 lines with ERROR; one of those lines contains ERROR twice.",
+      "instructions": "What does grep -c \"ERROR\" boot.log print?",
+      "hints": [
+        "-c counts lines, not occurrences.",
+        "Use grep -o ... | wc -l to count occurrences."
+      ],
+      "explanation": "grep -c prints the number of matching lines, so a line with two matches still counts once. To count every\n       occurrence, use grep -o \"ERROR\" boot.log | wc -l.",
+      "source": "Linux, Bash & Embedded Debugging Handbook · Text processing with grep",
+      "prerequisites": [],
+      "options": [
+        "Nothing; -c only sets the exit code",
+        "3",
+        "The matching lines themselves",
+        "4"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "lx-002",
+      "category": "LINUX",
+      "skillId": "git_linux",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "Reading octal permissions",
+      "description": "A diagnostic script is installed with chmod 754 collect.sh.",
+      "instructions": "Type the 9-character permission string (as shown by ls -l, without the leading file-type character).",
+      "hints": [
+        "Each digit is read (4) + write (2) + execute (1).",
+        "Digits are owner, group, others."
+      ],
+      "explanation": "7 = 4+2+1 = rwx for the owner, 5 = 4+1 = r-x for the group, 4 = r-- for others. Others can read the script\n            but not execute it.",
+      "source": "Linux, Bash & Embedded Debugging Handbook · Ch. 3 Users, Groups and Permissions",
+      "prerequisites": [],
+      "code": "chmod 754 collect.sh",
+      "acceptedAnswers": [
+        "rwxr-xr--"
+      ],
+      "matchMode": "TRIMMED"
+    },
+    {
+      "id": "lx-003",
+      "category": "LINUX",
+      "skillId": "git_linux",
+      "type": "FILL_BLANK",
+      "difficulty": "EASY",
+      "estimatedSeconds": 210,
+      "title": "Follow a service's journal",
+      "description": "bmcweb is restarting during a Redfish test and you want to watch its log live.",
+      "instructions": "Fill the blank so journalctl keeps printing new entries for the unit.",
+      "hints": [
+        "Same letter as tail's live option.",
+        "There is a long form too."
+      ],
+      "explanation": "journalctl -u UNIT limits output to one systemd unit and -f (--follow) keeps streaming new entries, like\n         tail -f. Add --since \"10 min ago\" to start from a recent point.",
+      "source": "Linux, Bash & Embedded Debugging Handbook · systemd & journald",
+      "prerequisites": [],
+      "code": "journalctl -u bmcweb ____",
+      "acceptedAnswers": [
+        "-f",
+        "--follow"
+      ],
+      "matchMode": "NORMALIZED"
+    },
+    {
+      "id": "lx-004",
+      "category": "LINUX",
+      "skillId": "git_linux",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "Exit status",
+      "description": "A Bash wrapper runs a command and then checks $?.",
+      "instructions": "What does $? equal to 0 mean?",
+      "hints": [
+        "Non-zero exit codes signal failure.",
+        "Automation should check this after every critical step."
+      ],
+      "explanation": "$? holds the exit status of the last command: 0 means success, anything else is a failure code. set -e makes\n       a script stop at the first failing command.",
+      "source": "Linux, Bash & Embedded Debugging Handbook · Bash automation",
+      "prerequisites": [],
+      "options": [
+        "The previous command printed nothing",
+        "The previous command succeeded",
+        "The previous command ran for 0 seconds",
+        "The script has no arguments"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "lx-005",
+      "category": "LINUX",
+      "skillId": "git_linux",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "The dangerous cleanup",
+      "description": "A log-rotation script runs as root on a lab controller.",
+      "instructions": "What is the most serious problem?",
+      "hints": [
+        "What does the command expand to when get_log_dir prints nothing?",
+        "Bash can abort on empty variables."
+      ],
+      "explanation": "An empty or unset variable turns the command into rm -rf /*. Use rm -rf -- \"${LOG_DIR:?LOG_DIR is empty}\"/*\n        so the script aborts instead, and add set -euo pipefail at the top.",
+      "source": "Linux, Bash & Embedded Debugging Handbook · Bash safety; safety labels",
+      "prerequisites": [],
+      "code": "#!/bin/bash\nLOG_DIR=$(get_log_dir)\nrm -rf $LOG_DIR/*",
+      "options": [
+        "The shebang must be #!/bin/sh",
+        "If LOG_DIR is empty, the command becomes rm -rf /* ; quote it and guard with ${LOG_DIR:?}",
+        "Command substitution is not allowed in assignments",
+        "rm cannot delete directories"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "git-001",
+      "category": "GIT",
+      "skillId": "git_linux",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 180,
+      "title": "fetch versus pull",
+      "description": "You want to see what teammates pushed without changing your working branch.",
+      "instructions": "Which command does that?",
+      "hints": [
+        "One command only downloads.",
+        "The other downloads and merges."
+      ],
+      "explanation": "git fetch updates remote-tracking branches such as origin/main without touching your branch or files.\n       git pull is fetch followed by merge (or rebase) into the current branch.",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 1 Git Fundamentals",
+      "prerequisites": [],
+      "options": [
+        "git stash pop",
+        "git reset --hard origin/main",
+        "git fetch",
+        "git pull"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "git-002",
+      "category": "GIT",
+      "skillId": "git_linux",
+      "type": "ARRANGE_STEPS",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "Feature branch workflow",
+      "description": "You are adding UART retry logic to the shared test framework.",
+      "instructions": "Order the steps of a standard feature-branch workflow.",
+      "hints": [
+        "Create the branch before you change anything.",
+        "A pull request needs the branch on the remote."
+      ],
+      "explanation": "Branch first so main stays clean, commit your staged work, push the branch with -u to set its upstream,\n            then open a pull request so CI and reviewers check the change before it merges.",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 3 Professional Git Workflows",
+      "prerequisites": [],
+      "steps": [
+        "git switch -c feature/uart-retry",
+        "Edit the files and stage them with git add",
+        "git commit -m \"Add UART read retries\"",
+        "git push -u origin feature/uart-retry",
+        "Open a pull request for review"
+      ]
+    },
+    {
+      "id": "git-003",
+      "category": "GIT",
+      "skillId": "git_linux",
+      "type": "FILL_BLANK",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "Undo the last commit",
+      "description": "You committed too early and want to undo the last commit but keep its changes staged.",
+      "instructions": "Fill the blank.",
+      "hints": [
+        "Three modes: one keeps the index, one keeps only files, one discards everything.",
+        "You want to keep the most."
+      ],
+      "explanation": "--soft moves the branch pointer back and leaves the changes staged. --mixed (the default) unstages them;\n         --hard discards them. Only reset commits you have not pushed.",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 5 Git Troubleshooting",
+      "prerequisites": [],
+      "code": "git reset ____ HEAD~1",
+      "acceptedAnswers": [
+        "--soft"
+      ],
+      "matchMode": "NORMALIZED"
+    },
+    {
+      "id": "git-004",
+      "category": "GIT",
+      "skillId": "git_linux",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "A leaked password",
+      "description": "You pushed a commit containing a BMC admin password to a shared repository.",
+      "instructions": "What must happen first?",
+      "hints": [
+        "Clones and forks may already have the commit.",
+        "History rewriting cannot recall copies."
+      ],
+      "explanation": "Once pushed, assume the secret is compromised: change it immediately. Then purge it from history (for\n       example with git filter-repo), and prevent recurrences with credentials stores and pre-commit scanning.",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 5 Git Troubleshooting and Security",
+      "prerequisites": [],
+      "options": [
+        "Force-push and assume nobody saw it",
+        "Delete the file in a new commit; that is enough",
+        "Rename the repository",
+        "Rotate (change) the password, then remove it from history and add secret scanning"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "id": "git-005",
+      "category": "GIT",
+      "skillId": "git_linux",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 210,
+      "title": "Hunting a regression",
+      "description": "A test passed at tag v2.13 and fails at HEAD, 300 commits later.",
+      "instructions": "Which Git feature finds the first failing commit most efficiently?",
+      "hints": [
+        "About log2(300) ≈ 9 test runs.",
+        "It performs a binary search over history."
+      ],
+      "explanation": "git bisect binary-searches between a good and a bad commit; git bisect run can even execute the test\n       automatically at each step. blame shows who last changed each line, which is a different question.",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 5 Git Troubleshooting",
+      "prerequisites": [],
+      "options": [
+        "git cherry-pick",
+        "git blame",
+        "git bisect",
+        "git log --oneline"
+      ],
+      "correctIndex": 2
+    }
+  ]
+}

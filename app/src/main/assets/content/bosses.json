@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": 1,
+  "bosses": [
+    {
+      "id": "boss-syntax-sentinel",
+      "title": "The Syntax Sentinel",
+      "description": "Five rapid-fire checks on Python fundamentals and data structures. Clear all five in one run.",
+      "challengeIds": [
+        "py-002",
+        "py-007",
+        "py-011",
+        "py-016",
+        "dbg-003"
+      ]
+    },
+    {
+      "id": "boss-log-leviathan",
+      "title": "The Log Leviathan",
+      "description": "Parse, filter and summarise a hostile BMC log. Regex, Counter and generators combined.",
+      "challengeIds": [
+        "py-019",
+        "py-021",
+        "py-023",
+        "dbg-005",
+        "py-022"
+      ]
+    },
+    {
+      "id": "boss-redfish-hydra",
+      "title": "The Redfish Hydra",
+      "description": "Discover, authenticate, page and survive a hanging BMC.",
+      "challengeIds": [
+        "api-003",
+        "api-008",
+        "api-010",
+        "api-006",
+        "py-030"
+      ]
+    },
+    {
+      "id": "boss-pipeline-warden",
+      "title": "The Pipeline Warden",
+      "description": "Fix a broken test pipeline from assertion to Jenkins credentials.",
+      "challengeIds": [
+        "ta-006",
+        "ta-014",
+        "ci-002",
+        "ci-003",
+        "git-003"
+      ]
+    },
+    {
+      "id": "boss-firmware-golem",
+      "title": "The Firmware Golem",
+      "description": "A board will not boot after an update. Read the console and find the fault.",
+      "challengeIds": [
+        "emb-002",
+        "emb-004",
+        "emb-003",
+        "lx-003",
+        "emb-005"
+      ]
+    }
+  ]
+}

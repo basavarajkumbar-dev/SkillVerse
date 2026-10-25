@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": 1,
+  "unlockThresholdPercent": 60,
+  "nodes": [
+    {
+      "id": "python_foundations",
+      "title": "Python Foundations",
+      "glyph": "Py",
+      "description": "Types, operators, formatting, slicing and the habits that prevent beginner bugs.",
+      "prerequisites": []
+    },
+    {
+      "id": "data_structures",
+      "title": "Data Structures & Functions",
+      "glyph": "{}",
+      "description": "Lists, dicts, sets, tuples, comprehensions, arguments and sorting.",
+      "prerequisites": [
+        "python_foundations"
+      ]
+    },
+    {
+      "id": "file_log_parsing",
+      "title": "File Handling & Log Parsing",
+      "glyph": "Log",
+      "description": "Encodings, CSV/JSON, regular expressions, Counter and generators for big logs.",
+      "prerequisites": [
+        "data_structures"
+      ]
+    },
+    {
+      "id": "automation_python",
+      "title": "Automation with Python",
+      "glyph": "Run",
+      "description": "subprocess, exceptions, timeouts, logging and context managers.",
+      "prerequisites": [
+        "file_log_parsing"
+      ]
+    },
+    {
+      "id": "api_testing",
+      "title": "API Testing",
+      "glyph": "API",
+      "description": "HTTP status codes, Redfish discovery, sessions, ETags, TLS and pagination.",
+      "prerequisites": [
+        "automation_python"
+      ]
+    },
+    {
+      "id": "test_frameworks",
+      "title": "Test Frameworks",
+      "glyph": "Test",
+      "description": "pytest fixtures, parametrisation, markers, reports and reliable suites.",
+      "prerequisites": [
+        "api_testing"
+      ]
+    },
+    {
+      "id": "git_linux",
+      "title": "Git & Linux",
+      "glyph": "$_",
+      "description": "Shell safety, permissions, journald and day-to-day Git workflows.",
+      "prerequisites": [
+        "test_frameworks"
+      ]
+    },
+    {
+      "id": "cicd_jenkins",
+      "title": "CI/CD & Jenkins",
+      "glyph": "CI",
+      "description": "Pipeline stages, Jenkinsfile post actions, credentials and reproducible builds.",
+      "prerequisites": [
+        "git_linux"
+      ]
+    },
+    {
+      "id": "embedded_firmware",
+      "title": "Embedded Testing & Firmware",
+      "glyph": "FW",
+      "description": "UART consoles, the boot chain, version gates and boot failure analysis.",
+      "prerequisites": [
+        "cicd_jenkins"
+      ]
+    },
+    {
+      "id": "advanced_projects",
+      "title": "Advanced Projects",
+      "glyph": "Pro",
+      "description": "Hard debugging and algorithm challenges: concurrency, closures, bisection.",
+      "prerequisites": [
+        "embedded_firmware"
+      ]
+    }
+  ]
+}

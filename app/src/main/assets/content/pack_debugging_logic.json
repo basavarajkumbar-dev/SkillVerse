@@ -1,0 +1,546 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": 1,
+  "packId": "debugging_logic",
+  "title": "Debugging & Logic",
+  "sources": [
+    "Python Automation Engineer Handbook (complete edition, Oct 2026)",
+    "Linux, Bash & Embedded Debugging Handbook (Oct 2026)"
+  ],
+  "challenges": [
+    {
+      "id": "dbg-001",
+      "category": "DEBUGGING",
+      "skillId": "python_foundations",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "Three retries, two attempts",
+      "description": "A connectivity check is supposed to try up to three times, but logs show only two attempts.",
+      "instructions": "What is the bug?",
+      "hints": [
+        "range's stop value is excluded.",
+        "List what range(1, 3) produces."
+      ],
+      "explanation": "range(1, 3) yields 1 and 2. Use range(1, max_retries + 1) or range(max_retries) to get three attempts.\n        Off-by-one errors at loop bounds are among the most common automation bugs.",
+      "source": "Python Automation Engineer Handbook · Ch. 6 Loops",
+      "prerequisites": [],
+      "code": "max_retries = 3\nfor attempt in range(1, max_retries):\n    if ping(\"rack12-u07\"):\n        break",
+      "options": [
+        "ping() must be called before the loop",
+        "max_retries must be a string",
+        "break exits the loop too late",
+        "range(1, max_retries) stops before 3, so only attempts 1 and 2 run"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "id": "dbg-002",
+      "category": "LOGIC",
+      "skillId": "python_foundations",
+      "type": "ARRANGE_STEPS",
+      "difficulty": "EASY",
+      "estimatedSeconds": 270,
+      "title": "Build an error counter",
+      "description": "Reassemble a function that counts ERROR lines in a log file.",
+      "instructions": "Put the lines in an order that produces a working function. Indentation is shown.",
+      "hints": [
+        "The counter must exist before the loop uses it.",
+        "return goes after the with block finishes."
+      ],
+      "explanation": "The counter is initialised, the file is opened with an explicit encoding, each line is checked, and the\n            total is returned after the file is closed by the with block.",
+      "source": "Python Automation Engineer Handbook · Ch. 12 File Handling; Project P3",
+      "prerequisites": [],
+      "steps": [
+        "def count_errors(path):",
+        "    count = 0",
+        "    with open(path, encoding=\"utf-8\") as f:",
+        "        for line in f:",
+        "            if \"ERROR\" in line:",
+        "                count += 1",
+        "    return count"
+      ]
+    },
+    {
+      "id": "dbg-003",
+      "category": "DEBUGGING",
+      "skillId": "data_structures",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "The copy that was not a copy",
+      "description": "A test copies a config dict before changing the BMC user.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "dict() makes a shallow copy.",
+        "The inner dict is shared by both outer dicts."
+      ],
+      "explanation": "dict(base) copies only the outer level; both dicts reference the same inner dict, so changing it through\n            copy also changes base. Use copy.deepcopy(base) for nested configuration.",
+      "source": "Python Automation Engineer Handbook · Ch. 20 Memory Management; Ch. 7 Data Structures",
+      "prerequisites": [],
+      "code": "base = {\"bmc\": {\"user\": \"admin\"}}\ncopy = dict(base)\ncopy[\"bmc\"][\"user\"] = \"operator\"\nprint(base[\"bmc\"][\"user\"])",
+      "acceptedAnswers": [
+        "operator"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "base = {\"bmc\": {\"user\": \"admin\"}}\ncopy = dict(base)\ncopy[\"bmc\"][\"user\"] = \"operator\"\nprint(base[\"bmc\"][\"user\"])",
+        "expectedOutput": "operator"
+      }
+    },
+    {
+      "id": "dbg-004",
+      "category": "DEBUGGING",
+      "skillId": "data_structures",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "Status check that sometimes fails",
+      "description": "This check passes in the REPL but fails intermittently when the status comes from a parsed response.",
+      "instructions": "What is the bug?",
+      "hints": [
+        "Two equal strings are not necessarily the same object.",
+        "Which operator compares values?"
+      ],
+      "explanation": "is checks whether both operands are the same object. Interned literals can make it look as if it works,\n        but a string built at runtime is a different object. Python 3.8+ even warns: \"is\" with a literal.",
+      "source": "Python Automation Engineer Handbook · Ch. 3 Operators; Ch. 39 B3",
+      "prerequisites": [],
+      "code": "status = response_text.split(\":\")[1].strip()\nif status is \"OK\":\n    mark_passed()",
+      "options": [
+        "split() always returns one element",
+        "is compares identity, not value; use == for strings",
+        "strip() changes the case of the string",
+        "mark_passed() must be called before the if"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": "dbg-005",
+      "category": "DEBUGGING",
+      "skillId": "file_log_parsing",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "Greedy regex",
+      "description": "Extract the first component name in angle brackets.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        ".+ matches as much as it can.",
+        "The final > in the pattern matches the last > in the text."
+      ],
+      "explanation": ".+ is greedy: it expands to the end and backtracks only as far as needed to find a >, which is the last\n            one. Use the lazy form <(.+?)> or a negated class <([^>]+)> to stop at the first >.",
+      "source": "Python Automation Engineer Handbook · Ch. 17 Regular Expressions",
+      "prerequisites": [],
+      "code": "import re\nm = re.search(r\"<(.+)>\", \"<fan1> stalled, <psu2> lost\")\nprint(m.group(1))",
+      "acceptedAnswers": [
+        "fan1> stalled, <psu2"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "import re\nm = re.search(r\"<(.+)>\", \"<fan1> stalled, <psu2> lost\")\nprint(m.group(1))",
+        "expectedOutput": "fan1> stalled, <psu2"
+      }
+    },
+    {
+      "id": "dbg-006",
+      "category": "DEBUGGING",
+      "skillId": "file_log_parsing",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "BOOT OK never matches",
+      "description": "The UART log clearly contains a line BOOT OK, yet this loop never reports success.",
+      "instructions": "What is the bug?",
+      "hints": [
+        "Iterating a file yields lines with their line endings.",
+        "What does repr(line) show?"
+      ],
+      "explanation": "Lines from a file keep their trailing \"\\n\" (and serial captures often have \"\\r\\n\"). Compare\n        line.strip() == \"BOOT OK\" or use line.rstrip(\"\\r\\n\").",
+      "source": "Linux, Bash & Embedded Debugging Handbook · UART capture analysis; Python Automation Engineer Handbook · Ch. 12",
+      "prerequisites": [],
+      "code": "with open(\"uart.log\", encoding=\"utf-8\") as f:\n    for line in f:\n        if line == \"BOOT OK\":\n            print(\"booted\")",
+      "options": [
+        "The with block closes the file before the loop runs",
+        "Files must be read with f.read() before looping",
+        "String comparison is case-insensitive",
+        "Each line still ends with a newline character, so it never equals \"BOOT OK\""
+      ],
+      "correctIndex": 3
+    },
+    {
+      "id": "dbg-007",
+      "category": "LOGIC",
+      "skillId": "file_log_parsing",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "EASY",
+      "estimatedSeconds": 240,
+      "title": "Zero errors found?",
+      "description": "A parser that searches for \"ERROR\" reports 0 errors, but the log contains lines like \"error: i2c-3 timeout\" and \"Error: PSU2 lost\".",
+      "instructions": "What is the most likely cause?",
+      "hints": [
+        "Compare the exact letters.",
+        "\"error\" != \"ERROR\""
+      ],
+      "explanation": "Substring checks are case-sensitive. Normalise with line.upper() or use re.search(r\"\\berror\\b\", line,\n       re.IGNORECASE) when the log mixes capitalisations.",
+      "source": "Python Automation Engineer Handbook · Project P3; Linux, Bash & Embedded Debugging Handbook · log analysis",
+      "prerequisites": [],
+      "options": [
+        "The log is too large to parse",
+        "The file is opened in text mode",
+        "The search is case-sensitive",
+        "Python cannot search strings for substrings"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": "dbg-008",
+      "category": "DEBUGGING",
+      "skillId": "automation_python",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "The 20-minute timeout",
+      "description": "A 60-second power-on wait occasionally runs for 20 minutes on lab machines that sync with NTP.",
+      "instructions": "What is the bug?",
+      "hints": [
+        "What happens to the elapsed time if the clock jumps back?",
+        "Which clock is guaranteed never to go backwards?"
+      ],
+      "explanation": "If NTP steps the clock backwards, time.time() - start shrinks and the deadline moves away. time.monotonic()\n        is immune to clock changes and is the right choice for measuring durations.",
+      "source": "Python Automation Engineer Handbook · Ch. 18; API & Protocol Automation Handbook Q24",
+      "prerequisites": [],
+      "code": "start = time.time()\nwhile not powered_on():\n    if time.time() - start > 60:\n        raise TimeoutError(\"power-on timed out\")\n    time.sleep(2)",
+      "options": [
+        "time.sleep(2) is too short",
+        "The while condition is evaluated only once",
+        "TimeoutError cannot be raised manually",
+        "time.time() follows the wall clock, which NTP can step backwards; use time.monotonic()"
+      ],
+      "correctIndex": 3
+    },
+    {
+      "id": "dbg-009",
+      "category": "DEBUGGING",
+      "skillId": "automation_python",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "HARD",
+      "estimatedSeconds": 300,
+      "title": "Late-binding lambdas",
+      "description": "A list of check callbacks is built in a loop.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "A lambda looks up i when it is called, not when it is created.",
+        "What is i after the loop finishes?"
+      ],
+      "explanation": "Closures capture variables, not values. All three lambdas read i when called, after the loop has left\n            it at 2. Bind the value with a default argument: lambda i=i: i * 10.",
+      "source": "Python Automation Engineer Handbook · Ch. 19 Advanced Functions",
+      "prerequisites": [],
+      "code": "checks = [lambda: i * 10 for i in range(3)]\nprint([c() for c in checks])",
+      "acceptedAnswers": [
+        "[20, 20, 20]"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "checks = [lambda: i * 10 for i in range(3)]\nprint([c() for c in checks])",
+        "expectedOutput": "[20, 20, 20]"
+      }
+    },
+    {
+      "id": "dbg-010",
+      "category": "LOGIC",
+      "skillId": "automation_python",
+      "type": "ARRANGE_STEPS",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "Bisect a regression",
+      "description": "A sensor regression appeared somewhere between a known-good and a known-bad firmware build.",
+      "instructions": "Order the steps of a binary search for the first bad build.",
+      "hints": [
+        "You need two known endpoints before you can halve the range.",
+        "Each test halves the remaining range."
+      ],
+      "explanation": "Binary search needs a good and a bad endpoint, then repeatedly tests the midpoint and moves one boundary.\n            With N candidate builds it needs about log2(N) tests. git bisect automates exactly this for commits.",
+      "source": "Git, Jenkins & CI/CD Handbook · Ch. 5 Git Troubleshooting (git bisect)",
+      "prerequisites": [],
+      "steps": [
+        "Mark the newest failing build as bad and an older passing build as good",
+        "Test the build halfway between good and bad",
+        "If it fails it becomes the new bad, otherwise it becomes the new good",
+        "Repeat until the good and bad builds are adjacent",
+        "Report the bad build of the adjacent pair as the first bad build"
+      ]
+    },
+    {
+      "id": "dbg-011",
+      "category": "LOGIC",
+      "skillId": "advanced_projects",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "HARD",
+      "estimatedSeconds": 270,
+      "title": "Floor division and banker's rounding",
+      "description": "Compute buffer pages and display rounded values.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "// rounds towards negative infinity.",
+        "round() uses round-half-to-even."
+      ],
+      "explanation": "Floor division always rounds down, so -7 // 2 is -4, not -3. round() rounds halves to the nearest even\n            integer, so 2.5 becomes 2 and 3.5 becomes 4.",
+      "source": "Python Automation Engineer Handbook · Ch. 3 Operators",
+      "prerequisites": [],
+      "code": "print(7 // 2, -7 // 2, round(2.5), round(3.5))",
+      "acceptedAnswers": [
+        "3 -4 2 4"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "print(7 // 2, -7 // 2, round(2.5), round(3.5))",
+        "expectedOutput": "3 -4 2 4"
+      }
+    },
+    {
+      "id": "dbg-012",
+      "category": "DEBUGGING",
+      "skillId": "advanced_projects",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "HARD",
+      "estimatedSeconds": 330,
+      "title": "Lost updates across threads",
+      "description": "Eight threads each call record_pass() 10,000 times, yet the final count is sometimes below 80,000.",
+      "instructions": "What is the root cause?",
+      "hints": [
+        "+= reads the value, adds one and writes it back.",
+        "Another thread can run between the read and the write."
+      ],
+      "explanation": "Even with the GIL, a thread switch can happen between loading passed and storing the new value, so two\n        threads can write the same result. Guard the update with a Lock, or have each thread count locally and\n        combine the totals.",
+      "source": "Python Automation Engineer Handbook · Ch. 21 Concurrency and Parallelism; Project P11",
+      "prerequisites": [],
+      "code": "passed = 0\n\ndef record_pass():\n    global passed\n    passed += 1",
+      "options": [
+        "passed += 1 is a read-modify-write that is not atomic; protect it with a threading.Lock",
+        "global variables cannot be used from threads",
+        "The GIL guarantees += is atomic, so the threads must be crashing",
+        "Integers overflow after 65,535"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "dbg-013",
+      "category": "DEBUGGING",
+      "skillId": "advanced_projects",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "HARD",
+      "estimatedSeconds": 300,
+      "title": "Mutating a dict while iterating",
+      "description": "A loop adds keys to the dict it is iterating over.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "Dicts detect size changes during iteration.",
+        "The exception message describes exactly what happened."
+      ],
+      "explanation": "Adding a key changes the dict's size, and the iterator raises RuntimeError on its next step. Iterate over a\n            copy, for example for k in list(d):, when you need to modify the dict.",
+      "source": "Python Automation Engineer Handbook · Ch. 7 Data Structures; Ch. 36 Debugging",
+      "prerequisites": [],
+      "code": "d = {\"a\": 1}\ntry:\n    for k in d:\n        d[\"b\"] = 2\nexcept RuntimeError as e:\n    print(\"RuntimeError:\", e)",
+      "acceptedAnswers": [
+        "RuntimeError: dictionary changed size during iteration"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "d = {\"a\": 1}\ntry:\n    for k in d:\n        d[\"b\"] = 2\nexcept RuntimeError as e:\n    print(\"RuntimeError:\", e)",
+        "expectedOutput": "RuntimeError: dictionary changed size during iteration"
+      }
+    },
+    {
+      "id": "dbg-014",
+      "category": "LOGIC",
+      "skillId": "advanced_projects",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "Passes alone, fails in the suite",
+      "description": "test_fan_curve passes when run alone but fails when the whole suite runs.",
+      "instructions": "Which cause is the most likely?",
+      "hints": [
+        "What differs between the two runs?",
+        "Earlier tests run first only in the suite run."
+      ],
+      "explanation": "Order-dependent failures nearly always mean shared state: a module-level variable, a temp file, an\n       environment variable or a device setting changed by an earlier test. Reset state in fixtures, and run the\n       suite in random order (for example with the pytest-randomly plugin) to expose hidden dependencies.",
+      "source": "Python Automation Engineer Handbook · Ch. 25 pytest; Ch. 37 Code Quality",
+      "prerequisites": [],
+      "options": [
+        "Another test leaves shared state behind (globals, files, device settings)",
+        "Assertions are disabled in suite runs",
+        "The test file name is too long",
+        "pytest runs tests too quickly"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "dbg-015",
+      "category": "LOGIC",
+      "skillId": "advanced_projects",
+      "type": "CODE_PUZZLE",
+      "difficulty": "HARD",
+      "estimatedSeconds": 390,
+      "title": "Parse key=value pairs",
+      "description": "A firmware banner prints space-separated key=value pairs; values may contain dots but not spaces.",
+      "instructions": "Write one expression that turns the string line into a dict. Use dict() with a generator expression, the loop variable pair, and split(\"=\", 1).",
+      "hints": [
+        "line.split() with no argument splits on any whitespace.",
+        "dict() accepts an iterable of 2-item sequences."
+      ],
+      "explanation": "line.split() produces the pairs; pair.split(\"=\", 1) splits each at the first = only, giving a 2-item list\n           that dict() uses as key and value. maxsplit=1 keeps any later = characters in the value.",
+      "source": "Python Automation Engineer Handbook · Ch. 9 Comprehensions; Ch. 42 Coding Interview Practice",
+      "prerequisites": [],
+      "code": "line = \"fw=2.14.1 bmc=ok psu=2\"\n# your expression:",
+      "testCases": [
+        {
+          "input": "line = \"fw=2.14.1 bmc=ok psu=2\"",
+          "expected": "{'fw': '2.14.1', 'bmc': 'ok', 'psu': '2'}"
+        }
+      ],
+      "acceptedAnswers": [
+        "dict(pair.split(\"=\", 1) for pair in line.split())"
+      ],
+      "matchMode": "CODE",
+      "verify": {
+        "template": "line = \"fw=2.14.1 bmc=ok psu=2\"\nprint({{answer}})",
+        "expectedOutput": "{'fw': '2.14.1', 'bmc': 'ok', 'psu': '2'}"
+      }
+    },
+    {
+      "id": "dbg-016",
+      "category": "LOGIC",
+      "skillId": "advanced_projects",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "Floating-point equality",
+      "description": "A power calculation compares floats.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "0.1 and 0.2 cannot be represented exactly in binary.",
+        "Compare with a tolerance instead."
+      ],
+      "explanation": "0.1 + 0.2 evaluates to 0.30000000000000004, so == fails. Compare with a tolerance: math.isclose, an\n            absolute bound, or pytest.approx in tests.",
+      "source": "Python Automation Engineer Handbook · Ch. 2 Data Types; Ch. 25 pytest (approx)",
+      "prerequisites": [],
+      "code": "print(0.1 + 0.2 == 0.3, abs((0.1 + 0.2) - 0.3) < 1e-9)",
+      "acceptedAnswers": [
+        "False True"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "print(0.1 + 0.2 == 0.3, abs((0.1 + 0.2) - 0.3) < 1e-9)",
+        "expectedOutput": "False True"
+      }
+    },
+    {
+      "id": "dbg-017",
+      "category": "DEBUGGING",
+      "skillId": "advanced_projects",
+      "type": "IDENTIFY_BUG",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "The loop that never ends",
+      "description": "When check() keeps failing, this retry loop runs forever instead of stopping after three tries.",
+      "instructions": "What is the bug?",
+      "hints": [
+        "Look at the indentation of the last line.",
+        "Which statements belong to the while body?"
+      ],
+      "explanation": "In Python, indentation defines the block. retries += 1 runs only after the loop ends, so inside the loop\n        retries stays 0 forever. Indent it to the loop body level.",
+      "source": "Python Automation Engineer Handbook · Ch. 6 Loops; Ch. 36 Debugging",
+      "prerequisites": [],
+      "code": "retries = 0\nwhile retries < 3:\n    ok = check()\n    if ok:\n        break\nretries += 1",
+      "options": [
+        "retries += 1 is outside the loop body because of its indentation",
+        "break should be continue",
+        "while loops cannot use <",
+        "check() must return a string"
+      ],
+      "correctIndex": 0
+    },
+    {
+      "id": "dbg-018",
+      "category": "LOGIC",
+      "skillId": "advanced_projects",
+      "type": "ARRANGE_STEPS",
+      "difficulty": "HARD",
+      "estimatedSeconds": 390,
+      "title": "Find the first bad build",
+      "description": "Reassemble a binary-search helper that returns the first failing build from an ordered list.",
+      "instructions": "Put the lines in an order that produces a correct function. Indentation is shown.",
+      "hints": [
+        "The bounds must exist before the loop.",
+        "If mid is bad, the first bad build is at mid or earlier."
+      ],
+      "explanation": "When the midpoint is bad, the answer is at mid or before it, so hi = mid. When it is good, the answer is\n            after it, so lo = mid + 1. The loop ends when lo == hi, which is the first bad build (assuming the last\n            build is bad).",
+      "source": "Python Automation Engineer Handbook · Ch. 35 Data Structures, Algorithms and Coding Interviews",
+      "prerequisites": [],
+      "steps": [
+        "def first_bad(builds, is_bad):",
+        "    lo, hi = 0, len(builds) - 1",
+        "    while lo < hi:",
+        "        mid = (lo + hi) // 2",
+        "        if is_bad(builds[mid]):",
+        "            hi = mid",
+        "        else:",
+        "            lo = mid + 1",
+        "    return builds[lo]"
+      ]
+    },
+    {
+      "id": "dbg-019",
+      "category": "LOGIC",
+      "skillId": "advanced_projects",
+      "type": "PREDICT_OUTPUT",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 270,
+      "title": "Natural version order",
+      "description": "Sort firmware build names.",
+      "instructions": "Type exactly what this program prints. Each print() call is one line.",
+      "hints": [
+        "Strings sort character by character.",
+        "The key converts the number part to an int."
+      ],
+      "explanation": "Without a key, \"fw10\" sorts before \"fw2\" because \"1\" < \"2\". Converting the numeric part to int gives\n            numeric order. The same trap appears when comparing version strings.",
+      "source": "Python Automation Engineer Handbook · Ch. 7 Data Structures",
+      "prerequisites": [],
+      "code": "builds = [\"fw10\", \"fw9\", \"fw2\"]\nprint(sorted(builds), sorted(builds, key=lambda s: int(s[2:])))",
+      "acceptedAnswers": [
+        "['fw10', 'fw2', 'fw9'] ['fw2', 'fw9', 'fw10']"
+      ],
+      "matchMode": "TRIMMED",
+      "verify": {
+        "template": "builds = [\"fw10\", \"fw9\", \"fw2\"]\nprint(sorted(builds), sorted(builds, key=lambda s: int(s[2:])))",
+        "expectedOutput": "['fw10', 'fw2', 'fw9'] ['fw2', 'fw9', 'fw10']"
+      }
+    },
+    {
+      "id": "dbg-020",
+      "category": "LOGIC",
+      "skillId": "advanced_projects",
+      "type": "MULTIPLE_CHOICE",
+      "difficulty": "MEDIUM",
+      "estimatedSeconds": 240,
+      "title": "The slow allow-list",
+      "description": "A script checks 50,000 serial numbers against an allow-list of 20,000 entries stored in a Python list. It takes minutes.",
+      "instructions": "Which change gives the biggest speed-up?",
+      "hints": [
+        "How expensive is x in some_list?",
+        "Which structure has O(1) membership tests?"
+      ],
+      "explanation": "x in list scans the list, so the job is about 50,000 × 20,000 comparisons. A set uses hashing, making each\n       membership test O(1) on average and the whole job roughly 50,000 operations.",
+      "source": "Python Automation Engineer Handbook · Ch. 20 Memory Management and Performance; Ch. 35",
+      "prerequisites": [],
+      "options": [
+        "Print fewer log messages",
+        "Use a while loop instead of a for loop",
+        "Convert the allow-list to a set before the loop",
+        "Sort the 50,000 serial numbers first"
+      ],
+      "correctIndex": 2
+    }
+  ]
+}
