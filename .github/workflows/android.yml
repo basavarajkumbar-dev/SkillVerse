@@ -1,0 +1,73 @@
+name: Android build and tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Validate bundled curriculum
+        id: content
+        continue-on-error: true
+        run: python3 tools/validate_content.py app/src/main/assets/content 2>&1 | tee content-validation.log
+
+      - name: Build debug APK and run unit + Robolectric UI tests
+        id: gradle
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          ./gradlew --no-daemon --stacktrace assembleDebug testDebugUnitTest --continue 2>&1 | tee gradle.log
+
+      - name: Collect report
+        if: always()
+        run: python3 tools/ci_report.py "${{ steps.content.outcome }}" "${{ steps.gradle.outcome }}"
+
+      - name: Upload APK and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: skillverse-ci
+          path: ci-report/
+          if-no-files-found: warn
+
+      - name: Publish report to ci-reports branch
+        if: always() && github.event_name != 'pull_request'
+        run: |
+          cd ci-report
+          git init -q -b ci-reports
+          git config user.name "skillverse-ci"
+          git config user.email "ci@users.noreply.github.com"
+          git add -A
+          git commit -q -m "CI report for ${GITHUB_SHA}"
+          git push -q --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" ci-reports
+
+      - name: Fail job if a check failed
+        if: steps.content.outcome != 'success' || steps.gradle.outcome != 'success'
+        run: |
+          echo "content=${{ steps.content.outcome }} gradle=${{ steps.gradle.outcome }}"
+          exit 1

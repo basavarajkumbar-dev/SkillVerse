@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SkillVerse</string>
+    <string name="reminder_channel_name">Daily learning reminder</string>
+    <string name="reminder_channel_description">A once-a-day nudge to complete your SkillVerse missions.</string>
+</resources>
