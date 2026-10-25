@@ -71,7 +71,10 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
             days.flatMapLatest { today ->
                 combine(
                     observePlayer(container).distinctUntilChanged(),
-                    repo.observeMissions(today).onStart { repo.ensureDailyMissions(c, today) },
+                    repo.observeMissions(today).onStart {
+                        // A failed generation leaves the list empty (the UI shows an empty state) instead of crashing.
+                        runCatching { repo.ensureDailyMissions(c, today) }
+                    },
                     repo.observeBoss(today),
                     repo.observeDailyActivity(today),
                 ) { player, assignments, bossRow, todayActivity -> buildState(c, today, player, assignments, bossRow, todayActivity) }
