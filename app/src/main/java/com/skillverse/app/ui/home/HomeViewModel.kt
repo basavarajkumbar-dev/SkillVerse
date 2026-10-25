@@ -14,12 +14,14 @@ import com.skillverse.app.ui.common.PlayerSnapshot
 import com.skillverse.app.ui.common.curriculumOrNull
 import com.skillverse.app.ui.common.observePlayer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import java.time.DayOfWeek
@@ -60,11 +62,11 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
 
     val state: StateFlow<HomeState> = flow { emit(container.curriculumOrNull()) }
         .flatMapLatest { curriculum ->
-            if (curriculum == null) flow { emit(HomeState.Loading) } else observeHome(curriculum)
+            if (curriculum == null) flowOf<HomeState>(HomeState.Loading) else observeHome(curriculum)
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeState.Loading)
 
-    private fun observeHome(c: Curriculum) = container.timeProvider.observeToday()
+    private fun observeHome(c: Curriculum): Flow<HomeState> = container.timeProvider.observeToday()
         .let { days ->
             days.flatMapLatest { today ->
                 combine(
@@ -72,7 +74,18 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
                     repo.observeMissions(today).onStart { repo.ensureDailyMissions(c, today) },
                     repo.observeBoss(today),
                     repo.observeDailyActivity(today),
-                ) { player, assignments, bossRow, todayActivity ->
+                ) { player, assignments, bossRow, todayActivity -> buildState(c, today, player, assignments, bossRow, todayActivity) }
+            }
+        }
+
+    private suspend fun buildState(
+        c: Curriculum,
+        today: LocalDate,
+        player: PlayerSnapshot,
+        assignments: List<com.skillverse.app.data.db.DailyAssignmentEntity>,
+        bossRow: com.skillverse.app.data.db.DailyAssignmentEntity?,
+        todayActivity: List<com.skillverse.app.domain.analytics.DayActivity>,
+    ): HomeState {
                     // Keep the weekly boss assignment current as skills unlock (idempotent write).
                     val bossEntity = bossRow ?: repo.ensureWeeklyBoss(c, today)
                     val missions = assignments.sortedBy { MissionSlot.entries.indexOfFirst { s -> s.name == it.slot } }
@@ -82,7 +95,7 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
                             MissionItem(slot, ch, a.completedAtEpochMs != null)
                         }
                     val boss = bossEntity?.let { e -> c.bosses.firstOrNull { it.id == e.challengeId } }
-                    HomeState.Ready(
+                    return HomeState.Ready(
                         HomeUiState(
                             player = player,
                             missions = missions,
@@ -97,9 +110,7 @@ class HomeViewModel(private val container: AppContainer) : ViewModel() {
                             ),
                         ),
                     )
-                }
-            }
-        }
+    }
 
     private fun daysLeftInWeek(today: LocalDate): Int = DayOfWeek.SUNDAY.value - today.dayOfWeek.value + 1
 
