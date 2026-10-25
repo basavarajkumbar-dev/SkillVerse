@@ -15,6 +15,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTextReplacement
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.skillverse.app.TestContent
 import com.skillverse.app.data.settings.ThemeMode
@@ -187,9 +188,10 @@ class AppUiTest {
         rule.onNodeWithTag("profile_list").performScrollToNode(hasTestTag("edit_name"))
         rule.onNodeWithTag("edit_name").performClick()
         waitForTag("name_field")
-        rule.onNodeWithTag("name_field").performTextInput("2")
+        rule.onNodeWithTag("name_field").performTextReplacement("Asha Rao")
         rule.onNodeWithTag("save_name").performClick()
-        rule.waitUntil(5_000) { runBlocking { tc.settingsRepository.settings.first() }.displayName == "Tester2" }
+        rule.waitUntil(5_000) { runBlocking { tc.settingsRepository.settings.first() }.displayName == "Asha Rao" }
+        waitForText("Asha Rao")
     }
 
     @Test fun freshInstallShowsEmptyStates() {
