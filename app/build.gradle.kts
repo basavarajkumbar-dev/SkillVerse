@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 // Optional release signing. Create keystore.properties in the project root (never commit it):
@@ -89,8 +90,9 @@ android {
     }
 }
 
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
+room {
+    // Exported schemas are used to verify future migrations.
+    schemaDirectory("$projectDir/schemas")
 }
 
 dependencies {
