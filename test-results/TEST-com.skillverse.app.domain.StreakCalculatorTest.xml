@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.skillverse.app.domain.StreakCalculatorTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-25T09:35:54.244Z" hostname="runnervmtai0g" time="0.008">
+  <properties/>
+  <testcase name="emptyHistoryHasNoStreak" classname="com.skillverse.app.domain.StreakCalculatorTest" time="0.001"/>
+  <testcase name="streakCrossesMonthAndYearBoundaries" classname="com.skillverse.app.domain.StreakCalculatorTest" time="0.0"/>
+  <testcase name="weekStartsOnMonday" classname="com.skillverse.app.domain.StreakCalculatorTest" time="0.0"/>
+  <testcase name="missedDayResetsCurrentButKeepsLongest" classname="com.skillverse.app.domain.StreakCalculatorTest" time="0.006"/>
+  <testcase name="streakContinuesUntilTodayIsOver" classname="com.skillverse.app.domain.StreakCalculatorTest" time="0.0"/>
+  <testcase name="duplicatesAndFutureDatesAreIgnored" classname="com.skillverse.app.domain.StreakCalculatorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

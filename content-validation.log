@@ -1,0 +1,9 @@
+Challenges: 100 in 6 packs; executed-and-verified: 32
+  Python                        35 (target 35) ok
+  Debugging & logic             20 (target 20) ok
+  Test automation               15 (target 15) ok
+  API testing                   10 (target 10) ok
+  Linux & Git                   10 (target 10) ok
+  Embedded, firmware & CI/CD    10 (target 10) ok
+  types: ARRANGE_STEPS=9, CODE_PUZZLE=7, FILL_BLANK=9, IDENTIFY_BUG=16, MULTIPLE_CHOICE=33, PREDICT_OUTPUT=26
+Content is valid.

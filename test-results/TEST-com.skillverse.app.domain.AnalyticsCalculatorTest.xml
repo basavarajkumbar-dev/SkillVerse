@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.skillverse.app.domain.AnalyticsCalculatorTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-25T09:35:54.149Z" hostname="runnervmtai0g" time="0.006">
+  <properties/>
+  <testcase name="weakTopicsNeedEnoughAttempts" classname="com.skillverse.app.domain.AnalyticsCalculatorTest" time="0.005"/>
+  <testcase name="activitySeriesFillsGaps" classname="com.skillverse.app.domain.AnalyticsCalculatorTest" time="0.001"/>
+  <testcase name="percentIsSafeForZero" classname="com.skillverse.app.domain.AnalyticsCalculatorTest" time="0.0"/>
+  <testcase name="weeklyGoalIsCapped" classname="com.skillverse.app.domain.AnalyticsCalculatorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

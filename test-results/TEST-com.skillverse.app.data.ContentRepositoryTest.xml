@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.skillverse.app.data.ContentRepositoryTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-25T09:35:37.231Z" hostname="runnervmtai0g" time="0.54">
+  <properties/>
+  <testcase name="curriculumMeetsCategoryTargets" classname="com.skillverse.app.data.ContentRepositoryTest" time="0.322"/>
+  <testcase name="bundleLoadsWithoutDiagnostics" classname="com.skillverse.app.data.ContentRepositoryTest" time="0.001"/>
+  <testcase name="everyChallengeIsComplete" classname="com.skillverse.app.data.ContentRepositoryTest" time="0.005"/>
+  <testcase name="brokenJsonPackIsSkipped" classname="com.skillverse.app.data.ContentRepositoryTest" time="0.164"/>
+  <testcase name="missingManifestFailsGracefully" classname="com.skillverse.app.data.ContentRepositoryTest" time="0.002"/>
+  <testcase name="malformedChallengesAreRejectedWithDiagnosticsWhileOthersLoad" classname="com.skillverse.app.data.ContentRepositoryTest" time="0.029"/>
+  <testcase name="unsupportedSchemaIsRejected" classname="com.skillverse.app.data.ContentRepositoryTest" time="0.009"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

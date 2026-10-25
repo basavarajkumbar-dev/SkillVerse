@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.skillverse.app.data.ProgressRepositoryTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-10-25T09:35:38.190Z" hostname="runnervmtai0g" time="15.947">
+  <properties/>
+  <testcase name="correctAnswerAwardsXpExactlyOnce" classname="com.skillverse.app.data.ProgressRepositoryTest" time="13.72"/>
+  <testcase name="freshInstallHasEmptyProgress" classname="com.skillverse.app.data.ProgressRepositoryTest" time="0.178"/>
+  <testcase name="streakSurvivesDayBoundaryAndLongestIsKept" classname="com.skillverse.app.data.ProgressRepositoryTest" time="0.188"/>
+  <testcase name="timezoneChangeUsesTheNewLocalDate" classname="com.skillverse.app.data.ProgressRepositoryTest" time="0.071"/>
+  <testcase name="exportContainsRecordsAndResetClearsEverything" classname="com.skillverse.app.data.ProgressRepositoryTest" time="0.256"/>
+  <testcase name="nextDayGetsNewMissionsAndOldDayIsUnchanged" classname="com.skillverse.app.data.ProgressRepositoryTest" time="0.186"/>
+  <testcase name="levelUpIsReported" classname="com.skillverse.app.data.ProgressRepositoryTest" time="0.336"/>
+  <testcase name="weeklyBossAppearsWhenEligibleAndPaysOncePerWeek" classname="com.skillverse.app.data.ProgressRepositoryTest" time="0.396"/>
+  <testcase name="dailyAssignmentsAreStableAndCompletable" classname="com.skillverse.app.data.ProgressRepositoryTest" time="0.12"/>
+  <testcase name="wrongAnswerGoesToRevisionAndCorrectRemovesIt" classname="com.skillverse.app.data.ProgressRepositoryTest" time="0.175"/>
+  <testcase name="categoryAccuracyJoinsWithChallengeRefs" classname="com.skillverse.app.data.ProgressRepositoryTest" time="0.12"/>
+  <testcase name="masteryMilestoneAndUnlocksAreAwardedOnce" classname="com.skillverse.app.data.ProgressRepositoryTest" time="0.194"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

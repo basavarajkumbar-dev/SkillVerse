@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.skillverse.app.ui.AppUiTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-10-25T09:35:54.266Z" hostname="runnervmtai0g" time="14.637">
+  <properties/>
+  <testcase name="incorrectAnswerShowsFeedbackAndRetryResets" classname="com.skillverse.app.ui.AppUiTest" time="6.293"/>
+  <testcase name="reachingOneHundredXpShowsLevelUp" classname="com.skillverse.app.ui.AppUiTest" time="2.144"/>
+  <testcase name="settingsChangesArePersisted" classname="com.skillverse.app.ui.AppUiTest" time="2.031"/>
+  <testcase name="progressShowsZeroSafeAnalyticsOnFreshInstall" classname="com.skillverse.app.ui.AppUiTest" time="0.678"/>
+  <testcase name="freshInstallShowsEmptyStates" classname="com.skillverse.app.ui.AppUiTest" time="0.791"/>
+  <testcase name="onboardingLeadsToMissionControl" classname="com.skillverse.app.ui.AppUiTest" time="0.828"/>
+  <testcase name="completingADailyMissionAwardsXp" classname="com.skillverse.app.ui.AppUiTest" time="0.597"/>
+  <testcase name="bottomNavigationReachesEveryTab" classname="com.skillverse.app.ui.AppUiTest" time="1.269"/>
+  <system-out><![CDATA[W/FileTestStorage: Output properties is not supported.
+I/Tracing: Tracer added: class androidx.test.platform.tracing.AndroidXTracer
+D/EventInjectionStrategy: Creating injection strategy with input manager.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@172d6663 in: PRE_ON_CREATE
+V/ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+W/VirtualDeviceManager: Failed to retrieve virtual devices; no virtual device manager service.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@172d6663 in: CREATED
+V/ActivityScenario: Update currentActivityStage to CREATED, currentActivity=androidx.activity.ComponentActivity@172d6663
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@172d6663 in: STARTED
+V/ActivityScenario: Update currentActivityStage to STARTED, currentActivity=androidx.activity.ComponentActivity@172d6663
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@172d6663 in: RESUMED
+V/ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=androidx.activity.ComponentActivity@172d6663
+W/WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@172d6663 in: PAUSED
+V/ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=androidx.activity.ComponentActivity@172d6663
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@172d6663 in: STOPPED
+V/ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=androidx.activity.ComponentActivity@172d6663
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@172d6663 in: DESTROYED
+V/ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+W/WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$Lambda$446/0x00007f6e60a55df0@2be223d5
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@4407bf72 in: PRE_ON_CREATE
+V/ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+W/VirtualDeviceManager: Failed to retrieve virtual devices; no virtual device manager service.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@4407bf72 in: CREATED
+V/ActivityScenario: Update currentActivityStage to CREATED, currentActivity=androidx.activity.ComponentActivity@4407bf72
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@4407bf72 in: STARTED
+V/ActivityScenario: Update currentActivityStage to STARTED, currentActivity=androidx.activity.ComponentActivity@4407bf72
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@4407bf72 in: RESUMED
+V/ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=androidx.activity.ComponentActivity@4407bf72
+W/WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+W/WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@4407bf72 in: PAUSED
+V/ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=androidx.activity.ComponentActivity@4407bf72
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@4407bf72 in: STOPPED
+V/ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=androidx.activity.ComponentActivity@4407bf72
+W/WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$Lambda$446/0x00007f6e60a55df0@1050f93f
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@4407bf72 in: DESTROYED
+V/ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+W/WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$Lambda$446/0x00007f6e60a55df0@313b7
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@32f24b88 in: PRE_ON_CREATE
+V/ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+W/VirtualDeviceManager: Failed to retrieve virtual devices; no virtual device manager service.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@32f24b88 in: CREATED
+V/ActivityScenario: Update currentActivityStage to CREATED, currentActivity=androidx.activity.ComponentActivity@32f24b88
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@32f24b88 in: STARTED
+V/ActivityScenario: Update currentActivityStage to STARTED, currentActivity=androidx.activity.ComponentActivity@32f24b88
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@32f24b88 in: RESUMED
+V/ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=androidx.activity.ComponentActivity@32f24b88
+W/WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+W/ShadowLegacyPath: android.graphics.Path#op() not supported yet.
+W/ShadowLegacyPath: android.graphics.Path#op() not supported yet.
+I/ImeTracker: com.skillverse.app.debug:84d2c136: onRequestShow at ORIGIN_CLIENT_SHOW_SOFT_INPUT reason SHOW_SOFT_INPUT_BY_INSETS_API
+D/InsetsController: show(ime(), fromIme=false)
+I/ImeTracker: com.skillverse.app.debug:44680dd3: onRequestHide at ORIGIN_CLIENT_HIDE_SOFT_INPUT reason HIDE_SOFT_INPUT_BY_INSETS_API
+I/ImeTracker: com.skillverse.app.debug:44680dd3: onFailed at PHASE_CLIENT_VIEW_SERVED
+I/ImeTracker: com.skillverse.app.debug:44680dd3: onCancelled at PHASE_CLIENT_APPLY_ANIMATION
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@32f24b88 in: PAUSED
+V/ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=androidx.activity.ComponentActivity@32f24b88
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@32f24b88 in: STOPPED
+V/ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=androidx.activity.ComponentActivity@32f24b88
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@32f24b88 in: DESTROYED
+V/ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+W/WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$Lambda$446/0x00007f6e60a55df0@15add1f0
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@756fc5bc in: PRE_ON_CREATE
+V/ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+W/VirtualDeviceManager: Failed to retrieve virtual devices; no virtual device manager service.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@756fc5bc in: CREATED
+V/ActivityScenario: Update currentActivityStage to CREATED, currentActivity=androidx.activity.ComponentActivity@756fc5bc
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@756fc5bc in: STARTED
+V/ActivityScenario: Update currentActivityStage to STARTED, currentActivity=androidx.activity.ComponentActivity@756fc5bc
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@756fc5bc in: RESUMED
+V/ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=androidx.activity.ComponentActivity@756fc5bc
+W/WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@756fc5bc in: PAUSED
+V/ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=androidx.activity.ComponentActivity@756fc5bc
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@756fc5bc in: STOPPED
+V/ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=androidx.activity.ComponentActivity@756fc5bc
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@756fc5bc in: DESTROYED
+V/ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+W/WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$Lambda$446/0x00007f6e60a55df0@4308ca42
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@27d8bfc8 in: PRE_ON_CREATE
+V/ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+W/VirtualDeviceManager: Failed to retrieve virtual devices; no virtual device manager service.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@27d8bfc8 in: CREATED
+V/ActivityScenario: Update currentActivityStage to CREATED, currentActivity=androidx.activity.ComponentActivity@27d8bfc8
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@27d8bfc8 in: STARTED
+V/ActivityScenario: Update currentActivityStage to STARTED, currentActivity=androidx.activity.ComponentActivity@27d8bfc8
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@27d8bfc8 in: RESUMED
+V/ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=androidx.activity.ComponentActivity@27d8bfc8
+W/WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@27d8bfc8 in: PAUSED
+V/ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=androidx.activity.ComponentActivity@27d8bfc8
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@27d8bfc8 in: STOPPED
+V/ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=androidx.activity.ComponentActivity@27d8bfc8
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@27d8bfc8 in: DESTROYED
+V/ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+W/WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$Lambda$446/0x00007f6e60a55df0@53001598
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@49d772ae in: PRE_ON_CREATE
+V/ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+W/VirtualDeviceManager: Failed to retrieve virtual devices; no virtual device manager service.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@49d772ae in: CREATED
+V/ActivityScenario: Update currentActivityStage to CREATED, currentActivity=androidx.activity.ComponentActivity@49d772ae
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@49d772ae in: STARTED
+V/ActivityScenario: Update currentActivityStage to STARTED, currentActivity=androidx.activity.ComponentActivity@49d772ae
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@49d772ae in: RESUMED
+V/ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=androidx.activity.ComponentActivity@49d772ae
+I/ImeTracker: com.skillverse.app.debug:5bcfe0ac: onRequestShow at ORIGIN_CLIENT_SHOW_SOFT_INPUT reason SHOW_SOFT_INPUT_BY_INSETS_API
+D/InsetsController: show(ime(), fromIme=false)
+I/ImeTracker: com.skillverse.app.debug:d9d0af26: onRequestHide at ORIGIN_CLIENT_HIDE_SOFT_INPUT reason HIDE_SOFT_INPUT_BY_INSETS_API
+I/ImeTracker: com.skillverse.app.debug:d9d0af26: onFailed at PHASE_CLIENT_VIEW_SERVED
+I/ImeTracker: com.skillverse.app.debug:d9d0af26: onCancelled at PHASE_CLIENT_APPLY_ANIMATION
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@49d772ae in: PAUSED
+V/ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=androidx.activity.ComponentActivity@49d772ae
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@49d772ae in: STOPPED
+V/ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=androidx.activity.ComponentActivity@49d772ae
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@49d772ae in: DESTROYED
+V/ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+W/WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$Lambda$446/0x00007f6e60a55df0@9948d43
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@348a823c in: PRE_ON_CREATE
+V/ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+W/VirtualDeviceManager: Failed to retrieve virtual devices; no virtual device manager service.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@348a823c in: CREATED
+V/ActivityScenario: Update currentActivityStage to CREATED, currentActivity=androidx.activity.ComponentActivity@348a823c
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@348a823c in: STARTED
+V/ActivityScenario: Update currentActivityStage to STARTED, currentActivity=androidx.activity.ComponentActivity@348a823c
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@348a823c in: RESUMED
+V/ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=androidx.activity.ComponentActivity@348a823c
+W/WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@348a823c in: PAUSED
+V/ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=androidx.activity.ComponentActivity@348a823c
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@348a823c in: STOPPED
+V/ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=androidx.activity.ComponentActivity@348a823c
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@348a823c in: DESTROYED
+V/ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+W/WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$Lambda$446/0x00007f6e60a55df0@4382b74b
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@10849838 in: PRE_ON_CREATE
+V/ActivityScenario: Activity lifecycle changed event received but ignored because the reported transition was not ON_CREATE while the last known transition was PRE_ON_CREATE
+W/VirtualDeviceManager: Failed to retrieve virtual devices; no virtual device manager service.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@10849838 in: CREATED
+V/ActivityScenario: Update currentActivityStage to CREATED, currentActivity=androidx.activity.ComponentActivity@10849838
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@10849838 in: STARTED
+V/ActivityScenario: Update currentActivityStage to STARTED, currentActivity=androidx.activity.ComponentActivity@10849838
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@10849838 in: RESUMED
+V/ActivityScenario: Update currentActivityStage to RESUMED, currentActivity=androidx.activity.ComponentActivity@10849838
+W/WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@10849838 in: PAUSED
+V/ActivityScenario: Update currentActivityStage to PAUSED, currentActivity=androidx.activity.ComponentActivity@10849838
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@10849838 in: STOPPED
+V/ActivityScenario: Update currentActivityStage to STOPPED, currentActivity=androidx.activity.ComponentActivity@10849838
+D/LifecycleMonitor: Lifecycle status change: androidx.activity.ComponentActivity@10849838 in: DESTROYED
+V/ActivityScenario: Update currentActivityStage to DESTROYED, currentActivity=null
+W/WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$Lambda$446/0x00007f6e60a55df0@635dbe6f
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.skillverse.app.domain.AchievementEngineTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-25T09:35:54.144Z" hostname="runnervmtai0g" time="0.003">
+  <properties/>
+  <testcase name="eachRequirementIsEnforced" classname="com.skillverse.app.domain.AchievementEngineTest" time="0.001"/>
+  <testcase name="alreadyUnlockedAreNotReturnedAgain" classname="com.skillverse.app.domain.AchievementEngineTest" time="0.001"/>
+  <testcase name="nothingEarnedOnFreshInstall" classname="com.skillverse.app.domain.AchievementEngineTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

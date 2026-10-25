@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.skillverse.app.domain.AnswerValidatorTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-10-25T09:35:54.157Z" hostname="runnervmtai0g" time="0.019">
+  <properties/>
+  <testcase name="normalizationModes" classname="com.skillverse.app.domain.AnswerValidatorTest" time="0.005"/>
+  <testcase name="multipleChoiceCorrectAndIncorrect" classname="com.skillverse.app.domain.AnswerValidatorTest" time="0.001"/>
+  <testcase name="predictOutputToleratesTrailingWhitespaceButNotWrongContent" classname="com.skillverse.app.domain.AnswerValidatorTest" time="0.002"/>
+  <testcase name="timedOutIsIncorrect" classname="com.skillverse.app.domain.AnswerValidatorTest" time="0.0"/>
+  <testcase name="arrangeRequiresExactOrderAndEveryStep" classname="com.skillverse.app.domain.AnswerValidatorTest" time="0.003"/>
+  <testcase name="shuffledStepsNeverStartSolved" classname="com.skillverse.app.domain.AnswerValidatorTest" time="0.001"/>
+  <testcase name="codeAnswersIgnoreSpacingAndQuoteStyle" classname="com.skillverse.app.domain.AnswerValidatorTest" time="0.001"/>
+  <testcase name="blankAndWrongTypedAnswersAreIncompleteNotCorrect" classname="com.skillverse.app.domain.AnswerValidatorTest" time="0.0"/>
+  <testcase name="everyBundledAnswerKeyValidatesAgainstItself" classname="com.skillverse.app.domain.AnswerValidatorTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
